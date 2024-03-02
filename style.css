@@ -1,0 +1,143 @@
+:root {
+	margin: 0;
+	padding: 0;
+}
+@media (max-width: 700px) {
+	body {
+		--fontsize: 5vw;
+		--setting-fontsize: 4vw;
+	}
+}
+@media (min-width: 700px) {
+	body {
+		--fontsize: 1.5vw;
+		--setting-fontsize: 1vw;
+	}
+}
+body:not(.nightly) {
+	--background: #ffffff;
+	--text: #000000;
+}
+body.nightly {
+	--background: #000000;
+	--text: #525252;
+	--setting: #6b6b6b;
+}
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background-color: var(--background);
+	font-size: var(--fontsize);
+	--font-weight: 100;
+}
+.test {
+	display: block;
+	visibility: hidden;
+	position: absolute;
+	writing-mode: vertical-rl;
+	text-orientation: upright;
+}
+p {
+	margin: 0;
+	padding: 0;
+	overflow-wrap: sc;
+	overflow: auto;
+	font-weight: var(--font-weight);
+}
+p > span {
+	padding-right: calc(var(--fontsize));
+}
+
+#text {
+	display: flex;
+	flex-direction: column;
+	writing-mode: vertical-rl;
+	text-orientation: upright;
+	width: calc(100% - var(--fontsize) * 2);
+	height: 90%;
+	padding-top: var(--fontsize);
+}
+.container {
+	background-color: var(--background);
+	color: var(--text);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 90%;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+}
+.pageselecter {
+	background-color: var(--setting);
+	border-radius: 100000px;
+	display: flex;
+	flex-direction: row;
+	width: auto;
+	margin: 5px;
+}
+.pageselecter > * {
+	background-color: inherit;
+	margin: 2vw;
+}
+.pageselecter > * > * {
+	background-color: inherit;
+}
+button {
+	all: unset;
+	user-select: none;
+}
+.footer {
+	position: absolute;
+	display: flex;
+	white-space: nowrap;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	bottom: 0;
+	height: auto;
+	font-size: var(--setting-fontsize);
+}
+.settingbar {
+	background-color: var(--setting);
+	opacity: 0;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: auto;
+	align-items: center;
+	justify-content: space-evenly;
+	flex-grow: 1;
+}
+.active {
+	opacity: 1;
+}
+.setting > * {
+	all: unset;
+}
+svg {
+	color: #ffffff;
+	height: var(--setting-fontsize);
+}
+.touchable {
+	pointer-events: all;
+}
+:not(.touchable) {
+	pointer-events: none;
+}
+.touchable > * {
+	pointer-events: all;
+}
+.tablist {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	width: 100%;
+}
+.hidden {
+	display: none;
+}
+.highlight {
+	background-color: #fffb00;
+}

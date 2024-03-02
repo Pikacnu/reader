@@ -48,15 +48,27 @@ p {
 p > span {
 	padding-right: calc(var(--fontsize));
 }
-
+p > span > span {
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+}
 #text {
 	display: flex;
-	flex-direction: column;
-	writing-mode: vertical-rl;
-	text-orientation: upright;
 	width: calc(100% - var(--fontsize) * 2);
 	height: 90%;
 	padding-top: var(--fontsize);
+}
+.column {
+	flex-direction: column;
+	writing-mode: vertical-rl;
+	text-orientation: upright;
+}
+#text:not(.column) {
+	display: flex;
+	flex-direction: column;
+}
+#text:not(.column) > span {
+	padding-top: calc(var(--fontsize));
 }
 .container {
 	background-color: var(--background);

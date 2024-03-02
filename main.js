@@ -11,20 +11,22 @@ const devicewidth = window.innerWidth;
 const deviceheight = window.innerHeight;
 
 let texts = ``;
+if (!texts) texts = '測試文字測試文字，測試文字測試文字';
 
 function getpages(isHorizontal) {
-	const maxheight = Math.round(text.offsetHeight / zhheight) - 1;
-	const maxwidth = Math.round(text.offsetWidth / zhwidth) / 2;
-	console.log(maxheight, maxwidth);
 	if (isHorizontal) {
+		const maxheight = Math.round(text.offsetHeight / zhheight) / 2;
+		const maxwidth = Math.round(text.offsetWidth / zhwidth) - 1;
 		let temp = texts;
 		let data = temp
-			.replaceAll('\n', '')
+			.replaceAll('\n', '₩')
+			.replaceAll(/，/g, '，₩')
+			.replaceAll(/。/g, '。₩')
 			.replaceAll('　', '')
-			.split('\n')
+			.split('₩')
 			.map((e) => {
-				if (e.length >= maxheight) {
-					return e.match(new RegExp(`.{1,${maxheight - 1}}`, 'g')).flat(1);
+				if (e.length >= maxwidth) {
+					return e.match(new RegExp(`.{1,${maxwidth - 1}}`, 'g')).flat(1);
 				}
 				return e;
 			})
@@ -35,7 +37,7 @@ function getpages(isHorizontal) {
 					if (acc[acc.length - 1].includes(last)) {
 						return acc.concat(cur);
 					}
-					if (last.length + cur.length <= maxheight) {
+					if (last.length + cur.length <= maxwidth) {
 						acc.push(last + cur);
 					} else {
 						acc.push(last);
@@ -56,8 +58,13 @@ function getpages(isHorizontal) {
 				acc.push([cur]);
 				return acc;
 			});
+		console.log(maxheight, maxwidth);
 		return data;
 	}
+
+	const maxheight = Math.round(text.offsetHeight / zhheight) - 1;
+	const maxwidth = Math.round(text.offsetWidth / zhwidth) / 2;
+	console.log(maxheight, maxwidth);
 	let temp = texts;
 	return temp
 		.replaceAll('\n', '₩')

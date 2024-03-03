@@ -9,15 +9,18 @@ const prev = document.getElementById('prev');
 const next = document.getElementById('next');
 const devicewidth = window.innerWidth;
 const deviceheight = window.innerHeight;
+const pageselecter = document.getElementById('pageselecter');
 
 let texts = ``;
-if (!texts) texts = '測試文字測試文字，測試文字測試文字';
+if (!texts) texts = `測試文字，測試文字`;
 
-function getpages(isHorizontal) {
+let haveChapter = false;
+
+function getpages(isHorizontal, textinput) {
 	if (isHorizontal) {
 		const maxheight = Math.round(text.offsetHeight / zhheight) / 2;
 		const maxwidth = Math.round(text.offsetWidth / zhwidth) - 1;
-		let temp = texts;
+		let temp = textinput;
 		let data = temp
 			.replaceAll('\n', '₩')
 			.replaceAll(/，/g, '，₩')
@@ -62,10 +65,10 @@ function getpages(isHorizontal) {
 		return data;
 	}
 
-	const maxheight = Math.round(text.offsetHeight / zhheight) - 1;
+	const maxheight = Math.round(text.offsetHeight / zhheight) - 2;
 	const maxwidth = Math.round(text.offsetWidth / zhwidth) / 2;
 	console.log(maxheight, maxwidth);
-	let temp = texts;
+	let temp = textinput;
 	return temp
 		.replaceAll('\n', '₩')
 		.replaceAll(/，/g, '，₩')
@@ -77,10 +80,15 @@ function getpages(isHorizontal) {
 		.replaceAll(/》/g, '︾')
 		.replaceAll(/（/g, '︵')
 		.replaceAll(/）/g, '︶')
+		.replaceAll(/\(/g, '︵')
+		.replaceAll(/\)/g, '︶')
 		.replaceAll(/〔/g, '︹')
 		.replaceAll(/〕/g, '︺')
 		.replaceAll(/〈/g, '︿')
 		.replaceAll(/〉/g, '﹀')
+		.replaceAll(/【/g, '︻')
+		.replaceAll(/】/g, '︼')
+		.replaceAll(/：/g, ':')
 		.replaceAll(/—/g, '|')
 		.split('₩')
 		.map((e) => {
@@ -109,8 +117,8 @@ function getpages(isHorizontal) {
 			return acc;
 		}, [])
 		.map((e) => {
-			if (e.match(/[a-zA-Z]/g)) {
-				return e.replaceAll(/([a-zA-Z]+)/g, '<span>$1</span>');
+			if (e.match(/[a-zA-Z0-9]/g)) {
+				return e.replaceAll(/([a-zA-Z0-9]+)/g, '<span>$1</span>');
 			}
 			return e;
 		})
@@ -132,7 +140,56 @@ function pageupdate(page) {
 	totalpage.innerHTML = pages.length;
 }
 
-let pages = getpages(false);
+//chapter
+
+const chapterprev = document.getElementById('chap-prev');
+const chapternext = document.getElementById('chap-next');
+
+let chapter = 0;
+
+if (haveChapter) {
+	chapternext.addEventListener('click', () => {
+		if (chapter < totalchapters - 1) {
+			chapter++;
+			chapterupdate(chapter);
+		}
+	});
+	chapterprev.addEventListener('click', () => {
+		if (chapter > 0) {
+			chapter--;
+			chapterupdate(chapter);
+		}
+	});
+	pageselecter.classList.toggle('space-between');
+} else {
+	chapternext.style.display = 'none';
+	chapterprev.style.display = 'none';
+}
+function getChapter(text) {
+	text = text
+		.split(
+			/------------------------------ 第\d章 ------------------------------/gm,
+		)
+		.map((e) => {
+			return getpages(false, e);
+		});
+	text.shift();
+	return text;
+}
+
+let chapters = getChapter(texts);
+let totalchapters = chapters.length;
+
+function chapterupdate(num) {
+	pages = chapters[num];
+	pageupdate(1);
+	page = 1;
+	document.title = `第${num + 1}章`;
+}
+
+//init
+
+let pages = getpages(false, texts);
 let totalpages = pages.length;
 let page = 1;
 total.innerHTML = pages.length;

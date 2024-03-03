@@ -153,3 +153,14 @@ svg {
 .highlight {
 	background-color: #fffb00;
 }
+.space-between {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.space-between > *:first-child {
+	margin-left: 4rem;
+}
+.space-between > *:last-child {
+	margin-right: 4rem;
+}

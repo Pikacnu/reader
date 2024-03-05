@@ -55,7 +55,7 @@ p > span > span {
 #text {
 	display: flex;
 	width: calc(100% - var(--fontsize) * 2);
-	height: 90%;
+	height: 90vh;
 	padding-top: var(--fontsize);
 }
 .column {
@@ -127,6 +127,7 @@ button {
 }
 .setting > * {
 	all: unset;
+	background-color: var(--setting);
 }
 svg {
 	color: #ffffff;
@@ -163,4 +164,13 @@ svg {
 }
 .space-between > *:last-child {
 	margin-right: 4rem;
+}
+.touchpanel {
+	position: fixed;
+	top: 0;
+	z-index: 1;
+	display: grid;
+	width: 100%;
+	height: 90%;
+	grid-template-columns: repeat(3, 1fr);
 }

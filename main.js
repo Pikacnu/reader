@@ -149,7 +149,7 @@ if (haveChapter) {
 	chapterprev.style.display = 'none';
 }
 function getChapter(text) {
-	text = text.split(/-+ 第\d章 -+/gm).map((e) => {
+	text = text.split(/-+ 第\d+章 -+/gm).map((e) => {
 		return getpages(false, e);
 	});
 	text.shift();
@@ -160,10 +160,11 @@ let chapters = getChapter(texts);
 let totalchapters = chapters.length;
 
 function chapterupdate(num) {
-	if (!(chapter > 1 && chapter < totalchapters)) return;
+	if (!(chapter >= 0 && chapter < totalchapters)) return;
 	pages = chapters[num];
 	pageupdate(1);
 	page = 1;
+	chapter = num;
 	document.title = `第${num}章`;
 }
 
@@ -194,21 +195,21 @@ function nextpage() {
 		prev.disable = false;
 		page++;
 		pageupdate(page);
-		if (haveChapter && page === totalpages) chapterupdate(chapter + 1);
-	} else {
-		next.disable = true;
+		return;
 	}
+	if (haveChapter && chapter !== totalchapters && page === totalpages)
+		chapterupdate(chapter + 1);
+	next.disable = true;
 }
 
 function prevpage() {
 	if (page > 1) {
 		next.disable = false;
 		page--;
-		pageupdate(page);
-		if (haveChapter && page === 1) chapterupdate(chapter - 1);
-	} else {
-		prev.disable = true;
+		return pageupdate(page);
 	}
+	if (haveChapter && chapter !== 0 && page === 1) chapterupdate(chapter - 1);
+	prev.disable = true;
 }
 document.body.addEventListener('keydown', (_) => {
 	if (_.key === 'ArrowRight') nextpage();

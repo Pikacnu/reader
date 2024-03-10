@@ -21,7 +21,6 @@ body:not(.nightly) {
 body.nightly {
 	--background: #000000;
 	--text: #525252;
-	--setting: #6b6b6b;
 }
 body {
 	margin: 0;
@@ -82,7 +81,7 @@ p > span > span {
 	justify-content: center;
 }
 .pageselecter {
-	background-color: var(--setting);
+	background-color: var(--background);
 	border-radius: 100000px;
 	display: flex;
 	flex-direction: row;
@@ -112,7 +111,7 @@ button {
 	font-size: var(--setting-fontsize);
 }
 .settingbar {
-	background-color: var(--setting);
+	background-color: var(--background);
 	opacity: 0;
 	display: flex;
 	flex-direction: column;
@@ -127,10 +126,10 @@ button {
 }
 .setting > * {
 	all: unset;
-	background-color: var(--setting);
+	background-color: var(--background);
 }
 svg {
-	color: #ffffff;
+	color: var(--text);
 	height: var(--setting-fontsize);
 }
 .touchable {

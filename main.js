@@ -8,11 +8,14 @@ const deviceheight = window.innerHeight;
 const pageselecter = document.getElementById('pageselecter');
 
 let texts = `wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa因何而發生？
+-- 第0章 --
 羅大經曾經認為
-，住世一日，則做一日好人，居官一日，則做一日好事。希望各位能用心體會這段話。謹慎地來說，我們必須考慮到所有可能。我們要從本質思考，從根本解決問題。wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa，到底應該如何實現。由於，維吉爾曾經認為，勞動征服一切。這段話非常有意思。wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa改變了我的命運。wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的出現，重寫了人生的意義。不難發現，問題在於該用什麼標準來做決定呢？想必大家都能了解wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的重要性。我們不得不面對一個非常尷尬的事實，那就是，wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的存在，令我無法停止對他的思考。查爾斯·史考伯相信，一個人幾乎可以在任何他懷有無限熱忱的事情上成功。。這不禁令我深思。其實，若思緒夠清晰，那麼wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa也就不那麼複雜了。夏多布里昂告訴我們，一個人絕不會僅僅因為用憎惡的眼光看待世人就能顯出他的優越。這啟發了我。這樣看來，斯賓塞深信，科學是系統化了的知識。這啟發了我。我想，把wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的意義想清楚，對各位來說並不是一件壞事。馬爾頓曾經認為，堅強的信心，能使平凡的人做出驚人的事業。這句話改變了我的人生。盧梭說過一句富有哲理的話，自然與美德，受到社會、財產的產物學問和藝術的侵害。這啟發了我。若能夠洞悉wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa各種層面的含義，勢必能讓思維再提高一個層級。問題的關鍵究竟為何？面對如此難題，我們必須設想周全。話雖如此，我們卻也不能夠這麼篤定。wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa，發生了會如何，不發生又會如何。要想清楚，wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa，到底是一種怎麼樣的存在。現在，正視wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的問題，是非常非常重要的。因為，了解清楚wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa到底是一種怎麼樣的存在，是解決一切問題的關鍵。
+-- 第2章 --
+，
+- 第3章 -住世一日，則做一日好人，居官一日，則做一日好事。希望各位能用心體會這段話。謹慎地來說，我們必須考慮到所有可能。我們要從本質思考，從根本解決問題。wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa，到底應該如何實現。由於，維吉爾曾經認為，勞動征服一切。這段話非常有意思。wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa改變了我的命運。wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的出現，重寫了人生的意義。不難發現，問題在於該用什麼標準來做決定呢？想必大家都能了解wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的重要性。我們不得不面對一個非常尷尬的事實，那就是，wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的存在，令我無法停止對他的思考。查爾斯·史考伯相信，一個人幾乎可以在任何他懷有無限熱忱的事情上成功。。這不禁令我深思。其實，若思緒夠清晰，那麼wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa也就不那麼複雜了。夏多布里昂告訴我們，一個人絕不會僅僅因為用憎惡的眼光看待世人就能顯出他的優越。這啟發了我。這樣看來，斯賓塞深信，科學是系統化了的知識。這啟發了我。我想，把wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的意義想清楚，對各位來說並不是一件壞事。馬爾頓曾經認為，堅強的信心，能使平凡的人做出驚人的事業。這句話改變了我的人生。盧梭說過一句富有哲理的話，自然與美德，受到社會、財產的產物學問和藝術的侵害。這啟發了我。若能夠洞悉wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa各種層面的含義，勢必能讓思維再提高一個層級。問題的關鍵究竟為何？面對如此難題，我們必須設想周全。話雖如此，我們卻也不能夠這麼篤定。wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa，發生了會如何，不發生又會如何。要想清楚，wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa，到底是一種怎麼樣的存在。現在，正視wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa的問題，是非常非常重要的。因為，了解清楚wdwdsaaaaaaaaaaaaaaaaaaaaaaaaaaaa到底是一種怎麼樣的存在，是解決一切問題的關鍵。
 那麼，在這種困難的抉擇下，本人思來想去，寢食難安。`;
 if (texts === '') texts = `你好，世界!`; // default ch
-let haveChapter = false;
+let haveChapter = true;
 
 let cookies;
 let cookieupdate = () =>
@@ -131,12 +134,11 @@ function getPages(isHorizontal, textinput) {
 }
 function pageUpdate(cpage) {
 	if (cpage < 1 || cpage > totalpages) return;
-	text.innerHTML = pages[page - 1].join('');
+	text.innerHTML = pages[cpage - 1].join('');
 	current.innerHTML = cpage;
 	totalpages = pages.length;
 	totalpage.innerHTML = pages.length;
 	page = cpage;
-	console.log(cpage);
 }
 
 //chapter
@@ -177,10 +179,13 @@ let totalchapters = chapters.length;
 function chapterUpdate(num, end) {
 	if (!(chapter >= 0 && chapter < totalchapters)) return;
 	pages = chapters[num];
-	if (end) pageUpdate(pages.length);
-	else pageUpdate(1);
+	if (end) {
+		pageUpdate(pages.length);
+	} else {
+		pageUpdate(1);
+	}
 	chapter = num;
-	document.title = `第${num}章`;
+	document.title = `第${num + 1}章`;
 }
 
 // Init for first page
@@ -500,3 +505,101 @@ if (getCookie('fontweight')) {
 if (getCookie('light')) {
 	lightupdate();
 }
+
+const getCurrentTextCount = () =>
+	chapters
+		.slice(0, chapter + 1)
+		.map((p, i) => {
+			if (i < chapter) return p;
+			return p.slice(0, page - 1);
+		})
+		.reduce(
+			(acc, cur) =>
+				acc +
+				cur.reduce((acc, cur) => {
+					return acc + cur.reduce((acc, cur) => acc + cur.length, 0);
+				}, 0),
+			0,
+		) + 1;
+
+const textCountToPages = (count) => {
+	if (!count || count === 0) return 0;
+	const data = chapters.reduce(
+		(acc, cur) => {
+			if (acc.pass) return acc;
+			let pass = acc.pass;
+			const pagedata = cur.reduce(
+				(acc, cur) => {
+					if (acc.pass) return acc;
+					const pagedata = cur.reduce(
+						(acc, cur) => {
+							if (acc.pass) return acc;
+							acc.page++;
+							if (acc.count + cur.length > count) {
+								return {
+									count: acc.count + cur.length,
+									page: acc.page,
+									pass: true,
+								};
+							}
+							return {
+								count: acc.count + cur.length,
+								page: acc.page + 1,
+								pass: acc.pass,
+							};
+						},
+						{
+							count: acc.count,
+							page: 0,
+							pass: false,
+						},
+					);
+					acc.page++;
+					if (acc.count + pagedata.count > count) {
+						return {
+							count: acc.count + pagedata.count,
+							page: acc.page,
+							pass: true,
+						};
+					}
+					return {
+						count: acc.count + pagedata.count,
+						page: acc.page + 1,
+						pass: acc.pass,
+					};
+				},
+				{
+					count: acc.count,
+					page: 0,
+					pass: false,
+				},
+			);
+			if (acc.count + pagedata.count > count) {
+				pass = true;
+				acc.chapter - 1;
+			}
+			return {
+				count: acc.count + pagedata.count,
+				chapter: acc.chapter + 1,
+				page: pagedata.page,
+				pass: pass,
+			};
+		},
+		{
+			chapter: 0,
+			page: 0,
+			count: 0,
+			pass: false,
+		},
+	);
+	return data;
+};
+
+const test = () => {
+	let data = getCurrentTextCount();
+	let count = data === 0 ? 1 : data;
+	const result = textCountToPages(count);
+	chapterUpdate(result.chapter - 1);
+	pageUpdate(result.page + 1);
+};
+chapterUpdate(0);

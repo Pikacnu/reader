@@ -9,9 +9,7 @@ const pageselecter = document.getElementById('pageselecter');
 
 let texts = ``;
 if (texts === '') texts = `你好，世界!`; // default ch
-let haveChapter = true;
-
-console.log(document.cookie);
+let haveChapter = false;
 
 let cookies;
 let cookieUpdate = () =>

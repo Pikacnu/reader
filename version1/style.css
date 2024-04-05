@@ -30,25 +30,13 @@ body {
 	font-size: var(--fontsize);
 	--font-weight: 100;
 }
-#fontsize {
-	display: flex;
+.test {
+	display: block;
 	visibility: hidden;
-	width: min-content;
-}
-#overflow-test {
-	display: flex;
 	position: absolute;
-	visibility: hidden;
-}
-#overflow-test:not(.Horizontal) {
-	height: calc(100vh - var(--fontsize) * 4);
 	writing-mode: vertical-rl;
 	text-orientation: upright;
 }
-#overflow-test.Horizontal {
-	width: calc(100vh - var(--fontsize) * 4);
-}
-
 p {
 	margin: 0;
 	padding: 0;

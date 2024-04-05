@@ -1,13 +1,81 @@
-const text = document.getElementById('text');
-const zhheight = document.getElementById('zh-test').offsetHeight / 2;
-const zhwidth = document.getElementById('zh-test').offsetWidth / 2;
-const enheight = document.getElementById('en-test').offsetHeight / 2;
-const enwidth = document.getElementById('en-test').offsetWidth / 2;
-const devicewidth = window.innerWidth;
-const deviceheight = window.innerHeight;
+const displayText = document.getElementById('text');
+const fontSize = document.getElementById('fontsize');
+const devicewidth = window.innerWidth - 2 * fontSize.offsetWidth;
+const deviceheight = window.innerHeight - 2 * fontSize.offsetHeight;
 const pageselecter = document.getElementById('pageselecter');
+const overflowTest = document.getElementById('overflow-test');
 
-let texts = ``;
+let texts = `你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!6 - 1
+第2章
+你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!6 - 2
+第3章
+你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!
+你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!你好，世界!6 - 3`;
 if (texts === '') texts = `你好，世界!`; // default ch
 let haveChapter = false;
 
@@ -21,215 +89,157 @@ function setCookie(name, value) {
 	cookieUpdate();
 }
 
-function getPages(isHorizontal, textinput) {
-	if (isHorizontal) {
-		const maxheight = Math.round(text.offsetHeight / zhheight) / 2;
-		const maxwidth = Math.round(text.offsetWidth / zhwidth) - 1;
-		console.log(maxheight, maxwidth);
-		let data = textinput
-			.replaceAll('\n', '₩')
-			.replaceAll(/，/g, '，₩')
-			.replaceAll(/。/g, '。₩')
-			.replaceAll('　', '')
-			.replaceAll(/ /g, '')
-			.split('₩')
-			.map((e) => {
-				if (e.length >= maxwidth) {
-					let test = e.match(new RegExp(`.{1,${maxwidth - 1}}`, 'g'));
-					let result = [];
-					for (const item of test) {
-						result.push(item);
-					}
-					return result;
-				}
-				return e;
-			})
-			.map((e) => `<span>${e}</span>`)
-			.reduce((acc, cur) => {
-				if (!Array.isArray(acc[acc.length - 1])) return [[acc, cur]];
-				if (acc[acc.length - 1].length < maxwidth) {
-					acc[acc.length - 1].push(cur);
-					return acc;
-				}
-				acc.push([cur]);
-				return acc;
-			});
-		return data;
-	}
+let isHorizontal = getCookie('isHorizontal') === 'true' ? true : false;
 
-	const maxheight = Math.round(text.offsetHeight / zhheight) - 2;
-	const maxwidth = Math.round(text.offsetWidth / zhwidth) / 2;
-	console.log(maxheight, maxwidth);
-	let temp = textinput;
-	return temp
-		.replaceAll('\n', '₩')
-		.replaceAll(/，/g, '，₩')
-		.replaceAll(/。/g, '。₩')
-		.replaceAll('　', '')
-		.replaceAll(/“/g, '﹁')
-		.replaceAll(/”/g, '﹂')
-		.replaceAll(/《/g, '︽')
-		.replaceAll(/》/g, '︾')
-		.replaceAll(/（/g, '︵')
-		.replaceAll(/）/g, '︶')
-		.replaceAll(/\(/g, '︵')
-		.replaceAll(/\)/g, '︶')
-		.replaceAll(/〔/g, '︹')
-		.replaceAll(/〕/g, '︺')
-		.replaceAll(/〈/g, '︿')
-		.replaceAll(/〉/g, '﹀')
-		.replaceAll(/【/g, '︻')
-		.replaceAll(/】/g, '︼')
-		.replaceAll(/：/g, ':')
-		.replaceAll(/—/g, '|')
-		.replaceAll(/!/g, '!')
-		.split('₩')
-		.reduce((acc, e) => {
-			if (e.length >= maxheight) {
-				let chunks = e.match(new RegExp(`.{1,${maxheight - 1}}`, 'g'));
-				return acc.concat(chunks.map((chunk) => `<span>${chunk}</span>`));
-			}
-			return acc.concat(`<span>${e}</span>`);
-		}, [])
-		.reduce((acc, cur) => {
-			if (!Array.isArray(acc)) acc = [acc];
-			if (acc.length > 1) {
-				const last = acc.pop();
-				if (acc[acc.length - 1].includes(last)) {
-					return acc.concat(cur);
-				}
-				if (last.length + cur.length <= maxheight) {
-					acc.push(last + cur);
-				} else {
-					acc.push(last);
-					acc.push(cur);
-				}
-			} else {
-				acc.push(cur);
-			}
-			return acc;
-		}, [])
-		.map((e) => {
-			if (e.match(/([^\u4E00-\u9FFF\n]+)/gm)) {
-				return e.replaceAll(/([^\u4E00-\u9FFF\n]+)/gm, '<span>$1</span>');
-			}
-			return e;
-		})
-		.map((e) => `<span>${e}</span>`)
-		.reduce((acc, cur) => {
-			if (!Array.isArray(acc[acc.length - 1])) return [[acc, cur]];
-			if (acc[acc.length - 1].length < maxwidth) {
-				acc[acc.length - 1].push(cur);
-				return acc;
-			}
-			acc.push([cur]);
-			return acc;
-		});
-}
-function pageUpdate(cpage, change = true) {
-	if (cpage < 1 || cpage > totalpages) return;
-	text.innerHTML = pages[cpage - 1].join('');
-	current.innerHTML = cpage;
-	totalpages = pages.length;
-	totalpage.innerHTML = pages.length;
-	page = cpage;
-	if (change) setCookie('textcount', getCurrentTextCount());
-}
-
-//chapter
-// Change Chapter
-
-const chapterprev = document.getElementById('chap-prev');
-const chapternext = document.getElementById('chap-next');
-
-let chapter = 0;
-
-if (haveChapter) {
-	chapternext.addEventListener('click', () => {
-		if (chapter < totalchapters - 1) {
-			chapter++;
-			chapterUpdate(chapter, false);
+function getPage(chapter, isHorizontal) {
+	let lines = chapter.split('\n');
+	let pages = [];
+	let page = [];
+	overflowTest.classList.value = isHorizontal ? 'Horizontal' : '';
+	for (let line of lines) {
+		overflowTest.appendChild(document.createTextNode(line));
+		if (
+			(!isHorizontal ? overflowTest.offsetWidth : overflowTest.offsetHeight) >
+			(!isHorizontal ? devicewidth - 50 : deviceheight - 50)
+		) {
+			pages.push(page);
+			page = [];
+			overflowTest.innerHTML = '';
+			overflowTest.appendChild(document.createTextNode(line));
 		}
-	});
-	chapterprev.addEventListener('click', () => {
-		if (chapter > 0) {
-			chapter--;
-			chapterUpdate(chapter, true);
-		}
-	});
-	pageselecter.classList.toggle('space-between');
-} else {
-	chapternext.style.display = 'none';
-	chapterprev.style.display = 'none';
-}
-function getChapter(text) {
-	return text.split(/-+ 第\d+章 -+/gm).map((e) => {
-		return getPages(false, e);
-	});
-}
-
-let chapters = getChapter(texts);
-let totalchapters = chapters.length;
-
-function chapterUpdate(num, end, change) {
-	if (!(chapter >= 0 && chapter < totalchapters)) return;
-	pages = chapters[num];
-	if (end) {
-		pageUpdate(pages.length, change);
-	} else {
-		pageUpdate(1, change);
+		page.push(line);
 	}
-	chapter = num;
-	document.title = `第${num + 1}章`;
+	pages.push(page);
+	return pages;
 }
-
-// Init for first page
 
 const totalpage = document.getElementById('total');
 const current = document.getElementById('current');
 
-let pages = getPages(getCookie('isHorizontal') === 'true', texts);
-let totalpages = pages.length;
-let page = 1;
-total.innerHTML = pages.length;
-text.innerHTML = pages[0].join('');
-current.innerHTML = 1;
+class Page {
+	constructor(pages, page = 1) {
+		this.pages = pages;
+		this.page = page;
+		totalpage.innerHTML = this.pages.length;
+	}
+	prev(update = false) {
+		if (!(this.page > 1)) return chapterList.prev(true);
+		this.page--;
+		if (update) this.update();
+		return this.pages[this.page - 1];
+	}
+	next(update = false) {
+		if (!(this.page < this.pages.length)) return chapterList.next(true);
+		this.page++;
+		if (update) this.update();
+		return this.pages[this.page - 1];
+	}
+	update() {
+		displayText.innerHTML = this.currentLines.join('');
+		current.innerHTML = this.page;
+		setCookie('page', this.page);
+	}
+	get currentLines() {
+		return this.pages[this.page - 1];
+	}
+	get length() {
+		return this.pages.length;
+	}
+	gotoPage(page) {
+		this.page = page;
+		return this.pages[this.page - 1];
+	}
+}
+
+const chapterprev = document.getElementById('chap-prev');
+const chapternext = document.getElementById('chap-next');
+
+class ChapterList {
+	constructor(texts, regex, chapter = 0) {
+		this.chapters = texts.split(regex);
+		console.log(this.chapters);
+		this.chapter = chapter;
+		this.currnetChapter = new Page(
+			getPage(this.chapters[this.chapter], isHorizontal),
+		);
+		if (this.chapters.length > 1) {
+			haveChapter = true;
+		} else {
+			haveChapter = false;
+			chapternext.style.display = 'none';
+			chapterprev.style.display = 'none';
+		}
+	}
+	prev(update = false) {
+		if (!(this.chapter > 0)) return;
+		this.chapter--;
+		this.currnetChapter = new Page(
+			getPage(this.chapters[this.chapter], isHorizontal),
+		);
+		if (update) {
+			this.currnetChapter.gotoPage(this.currnetChapter.length);
+			this.update();
+		}
+		return this.currnetChapter;
+	}
+	next(update = false) {
+		if (!(this.chapter < this.chapters.length - 1)) return;
+		this.chapter++;
+		this.currnetChapter = new Page(
+			getPage(this.chapters[this.chapter], isHorizontal),
+		);
+		if (update) {
+			this.currnetChapter.gotoPage(1);
+			this.update();
+		}
+		return this.currnetChapter;
+	}
+	update() {
+		this.currnetChapter.update();
+		setCookie('chapter', this.chapter);
+		document.title = `第${this.chapter + 1}章`;
+	}
+	gotoChapter(chapter) {
+		this.chapter = chapter;
+		this.currnetChapter = new Page(
+			getPage(this.chapters[this.chapter], isHorizontal),
+		);
+		this.currnetChapter.update();
+	}
+	get currnetPage() {
+		return this.currnetChapter;
+	}
+	get length() {
+		return this.chapters.length;
+	}
+}
+
+let currnetChapter = 0;
+let chapterList = new ChapterList(texts, new RegExp(/第\d+章/), currnetChapter);
+
+chapterList.update();
+
+chapterprev.addEventListener('click', () => {
+	chapterList.prev(true);
+});
+
+chapternext.addEventListener('click', () => {
+	chapterList.next(true);
+});
 
 const prev = document.getElementById('prev');
 const touchprev = document.getElementById('touchprev');
 const next = document.getElementById('next');
 const touchnext = document.getElementById('touchnext');
 
-prev.addEventListener('click', prevpage);
-next.addEventListener('click', nextpage);
-touchnext.addEventListener('click', nextpage);
-touchprev.addEventListener('click', prevpage);
+prev.addEventListener('click', () => chapterList.currnetPage.prev(true));
+next.addEventListener('click', () => chapterList.currnetPage.next(true));
+touchnext.addEventListener('click', () => chapterList.currnetPage.next(true));
+touchprev.addEventListener('click', () => chapterList.currnetPage.prev(true));
 
-function nextpage() {
-	if (page < totalpages) {
-		prev.disable = false;
-		page++;
-		pageUpdate(page);
-		return;
-	}
-	if (haveChapter && chapter < totalchapters - 1 && page === totalpages)
-		chapterUpdate(chapter + 1, false);
-	next.disable = true;
-}
-
-function prevpage() {
-	if (page > 1) {
-		next.disable = false;
-		page--;
-		return pageUpdate(page);
-	}
-	if (haveChapter && chapter > 0 && page === 1)
-		chapterUpdate(chapter - 1, true);
-	prev.disable = true;
-}
 document.body.addEventListener('keydown', (_) => {
-	if (_.key === 'ArrowRight') nextpage();
-	if (_.key === 'ArrowLeft') prevpage();
+	if (_.key === 'ArrowRight') () => chapterList.currnetPage.next(true);
+	if (_.key === 'ArrowLeft') () => chapterList.currnetPage.prev(true);
 });
 
 //Day/Night mode
@@ -245,8 +255,8 @@ const lightupdate = (_) => {
 	light = !light;
 	document.body.classList.toggle('nightly', light);
 	lightchanger.innerHTML = !light
-		? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg>'
-		: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"/></svg>';
+		? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z" fill="#212121"/></svg>'
+		: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z" fill="#212121"/></svg>';
 	settingclicked = true;
 	setCookie('light', light);
 };
@@ -396,34 +406,37 @@ removesearch.addEventListener('click', (e) => {
 });
 
 function search(target) {
-	pages = pages.map((page) =>
-		page.map((line) => {
-			if (line.includes(target)) {
-				const regex = new RegExp(target, 'g');
-				return line.replace(regex, `<span class="highlight">${target}</span>`);
-			}
-			return line;
-		}),
+	chapterList.currnetChapter.pages = chapterList.currnetChapter.pages.map(
+		(page) =>
+			page.map((line) => {
+				if (line.includes(target)) {
+					const regex = new RegExp(target, 'g');
+					return line.replace(
+						regex,
+						`<span class="highlight">${target}</span>`,
+					);
+				}
+				return line;
+			}),
 	);
-	text.innerHTML = pages[page - 1].join('');
+	chapterList.update();
 }
 function removeHighLight() {
-	pages = pages.map((page) =>
-		page.map((line) => {
-			if (line.includes('<span class="highlight">')) {
-				line = line.replaceAll('<span class="highlight">', '');
-				line = line.replaceAll('</span>', '');
-			}
-			return line;
-		}),
+	chapterList.currnetChapter.pages = chapterList.currnetChapter.pages.map(
+		(page) =>
+			page.map((line) => {
+				if (line.includes('<span class="highlight">')) {
+					line = line.replaceAll('<span class="highlight">', '');
+					line = line.replaceAll('</span>', '');
+				}
+				return line;
+			}),
 	);
-	text.innerHTML = pages[page - 1].join('');
+	chapterList.update();
 }
 
 //Text Direction
 // Change Text Direction
-
-let isHorizontal = getCookie('isHorizontal') === 'true' ? true : false;
 
 const textdirection = document.getElementById('textdirectiontab');
 
@@ -433,16 +446,23 @@ textdirection.addEventListener('click', (_) => {
 		? '<svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="m14.6961816 11.6470802.0841184.0726198 2 2c.2662727.2662727.2904793.682876.0726198.9764816l-.0726198.0841184-2 2c-.2929.2929-.7677.2929-1.0606 0-.2662727-.2662727-.2904793-.682876-.0726198-.9764816l.0726198-.0841184.7196-.7197h-10.6893c-.41421 0-.75-.3358-.75-.75 0-.3796833.28215688-.6934889.64823019-.7431531l.10176981-.0068469h10.6893l-.7196-.7197c-.2929-.2929-.2929-.7677 0-1.0606.2662727-.2662727.682876-.2904793.9764816-.0726198zm-8.1961616-8.6470802c.30667 0 .58246.18671.69635.47146l3.00003 7.50004c.1538.3845-.0333.821-.41784.9749-.38459.1538-.82107-.0333-.9749-.4179l-.81142-2.0285h-2.98445l-.81142 2.0285c-.15383.3846-.59031.5717-.9749.4179-.38458-.1539-.57165-.5904-.41781-.9749l3-7.50004c.1139-.28475.38968-.47146.69636-.47146zm8.1961616 1.14705264.0841184.07261736 2 2c.2662727.26626364.2904793.68293223.0726198.97654222l-.0726198.08411778-2 2c-.2929.29289-.7677.29289-1.0606 0-.2662727-.26626364-.2904793-.68293223-.0726198-.97654222l.0726198-.08411778.7196-.7196675h-3.6893c-.4142 0-.75-.3357925-.75-.7500025 0-.3796925.2821653-.69348832.6482323-.74315087l.1017677-.00684663h3.6893l-.7196-.7196725c-.2929-.29289-.2929-.76777 0-1.06066.2662727-.26626364.682876-.29046942.9764816-.07261736zm-8.1961616 1.62238736-.89223 2.23056h1.78445z" fill="#212121"/></svg>'
 		: '<svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="m13.75 12c.4142 0 .75.3358.75.75v1.6894l.7197-.7197c.2929-.2929.7677-.2929 1.0606 0s.2929.7677 0 1.0606l-2 2c-.0753.0754-.1627.1313-.2559.1679-.0489333.0192667-.1003556.0335111-.1536444.0421407l-.1207556.0097093-.0395-.00105c-.0817-.0043-.16-.0216-.2327-.0499-.0941-.0366-.1822-.0928-.2581-.1688l-2-2c-.2929-.2929-.2929-.7774 0-1.0703s.7677-.2832 1.0606.0097l.7197.7197v-1.6894c0-.4142.3358-.75.75-.75zm-8-9c.41421 0 .7500025.33579.7500025.75v10.6893l.7196675-.7196c.29289-.2929.76777-.2929 1.06066 0s.29289.7677 0 1.0606l-2 2c-.29289.2929-.76777.2929-1.06066 0l-2-2c-.29289-.2929-.29289-.7677 0-1.0606s.76777-.2929 1.06066 0l.7196725.7196v-10.6893c0-.41421.3357875-.75.7499975-.75zm7.75 0c.3067 0 .5825.18671.6964.47146l3 7.50004c.1538.3845-.0333.821-.4178.9749-.3846.1538-.8211-.0333-.9749-.4179l-.8115-2.0285h-2.9844l-.8114 2.0285c-.1539.3846-.5903.5717-.9749.4179-.38461-.1539-.57168-.5904-.41784-.9749l3.00004-7.50004c.1139-.28475.3896-.47146.6963-.47146zm0 2.76944-.8922 2.23056h1.7844z" fill="#212121"/></svg>';
 	text.classList.toggle('column');
-	pages = getPages(isHorizontal, texts);
-	pageUpdate(page);
 	settingclicked = true;
 	setCookie('isHorizontal', !isHorizontal.toString());
+	let chapter = chapterList.chapter;
+	let textcount = getCurrentTextCount();
+	chapterList = new ChapterList(texts, new RegExp(/第\d+章/), currnetChapter);
+	chapterList.gotoChapter(chapter);
+	chapterList.update();
+	textCountToPage(textcount);
 });
 
 addEventListener('resize', () => {
-	pages = getPages(isHorizontal, texts);
-	page = 1;
-	pageUpdate(page);
+	const chapter = chapterList.chapter;
+	const textcount = getCurrentTextCount();
+	chapterList = new ChapterList(texts, new RegExp(/第\d+章/), chapter);
+	chapterList.gotoChapter(chapter);
+	textCountToPage(textcount);
+	chapterList.update();
 });
 
 //setting bar
@@ -472,84 +492,28 @@ settingbar.addEventListener('click', toggleSettingBar);
 touchsetting.addEventListener('click', toggleSettingBar);
 
 const getCurrentTextCount = () =>
-	chapters
-		.slice(0, chapter + 1)
-		.map((p, i) => {
-			if (i < chapter) return p;
-			return p.slice(0, page - 1);
-		})
-		.reduce(
-			(acc, cur) =>
-				acc +
-				cur.reduce((acc, cur) => {
-					return acc + cur.reduce((acc, cur) => acc + cur.length, 0);
-				}, 0),
-			0,
-		) + 1;
+	chapterList.currnetPage.pages
+		.slice(0, chapterList.currnetPage.page - 1)
+		.reduce((prev, line) => prev + line.length, 0);
 
 const getPageInfoFromTextCount = (textCount) => {
 	if (!textCount || textCount === 0) return 0;
-	return chapters.reduce(
-		(prev, page, index) => {
-			if (prev.isReturn) return prev;
-			const currentPage = page.reduce(
-				(prev, page, index) => {
-					if (prev.isReturn) return prev;
-					const currentLines = page.reduce(
-						(prev, line, index) => {
-							if (prev.isReturn) return prev;
-							const isReturn = prev.count + line.length >= textCount;
-							return {
-								count: prev.count + line.length,
-								lines: index + 1,
-								isReturn: isReturn,
-							};
-						},
-						{
-							count: 0,
-							lines: 0,
-							isReturn: false,
-						},
-					);
-
-					const isReturn = prev.count + currentLines.count >= textCount;
-					return {
-						count: prev.count + currentLines.count,
-						lines: currentLines.lines,
-						pages: index + 1,
-						isReturn: isReturn,
-					};
-				},
-				{
-					count: 0,
-					lines: 0,
-					pages: 0,
-					isReturn: false,
-				},
-			);
-			const isReturn = prev.count + currentPage.count >= textCount;
-			return {
-				count: prev.count + currentPage.count,
-				lines: currentPage.lines,
-				page: currentPage.pages,
-				chapter: index + 1,
-				isReturn: isReturn,
-			};
+	return chapterList.currnetPage.pages.reduce(
+		(prev, line) => {
+			if (prev.textCount + line.length < textCount) {
+				prev.textCount += line.length;
+				prev.page++;
+			}
+			return prev;
 		},
-		{
-			count: 0,
-			lines: 0,
-			page: 0,
-			chapter: 0,
-			isReturn: false,
-		},
+		{ textCount: 0, page: 1 },
 	);
 };
 
 const textCountToPage = (textcount) => {
 	const result = getPageInfoFromTextCount(textcount);
-	chapterUpdate(result.chapter - 1);
-	pageUpdate(result.page);
+	chapterList.currnetPage.gotoPage(result.page);
+	chapterList.update();
 };
 
 //share button
@@ -558,7 +522,10 @@ const sharebtn = document.getElementById('sharebtn');
 
 sharebtn.addEventListener('click', () => {
 	const textcount = getCurrentTextCount();
-	const url = `${window.location.href}?textcount=${textcount}`;
+	const chapter = chapterList.chapter;
+	const url = `${
+		window.location.href.split('?')[0]
+	}?textcount=${textcount}&chapter=${chapter}`;
 	navigator.clipboard.writeText(url);
 	alert('已複製連結');
 });
@@ -597,14 +564,19 @@ if (getCookie('light')) {
 
 //load textcount from url if exist
 
-let textinit = false;
+let loadHistory = false;
 
 const urlParams = new URLSearchParams(window.location.search);
 const textcount = urlParams.get('textcount');
-if (textcount && !textinit) {
+const chapter = urlParams.get('chapter');
+if (textcount && chapter && !loadHistory) {
+	chapterList.gotoChapter(chapter * 1);
 	textCountToPage(textcount * 1);
-	textinit = true;
+	loadHistory = true;
 }
 
-if (getCookie('textcount') && !textinit)
+if (getCookie('textcount') && chapter && !loadHistory) {
+	chapterList.gotoChapter(chapter * 1);
 	textCountToPage(getCookie('textcount') * 1);
+	loadHistory = true;
+}

@@ -1,0 +1,1 @@
+import{j as e}from"./jsx-runtime-C2JdrU5W.js";function s(){return e.jsx("div",{className:"flex flex-col items-center justify-center",children:e.jsx("h1",{className:"text-3xl",children:"404 Not Found"})})}export{s as default};

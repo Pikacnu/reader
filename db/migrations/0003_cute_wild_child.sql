@@ -1,0 +1,1 @@
+ALTER TABLE "chapter" DROP CONSTRAINT "chapter_book_id_chapter_id_unique";

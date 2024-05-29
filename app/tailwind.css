@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	.all-unset {
+		all: unset;
+	}
+}
+.text-rtl {
+	writing-mode: rl;
+	text-orientation: mixed;
+}
+.text-ltr {
+	writing-mode: vertical-lr;
+	text-orientation:mixed;
+}

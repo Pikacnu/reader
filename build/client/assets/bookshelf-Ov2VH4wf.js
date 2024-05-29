@@ -1,0 +1,1 @@
+import{j as s}from"./jsx-runtime-C2JdrU5W.js";import{B as i}from"./bookcard-CTN9fDWw.js";function o({books:t}){return s.jsx("div",{className:"grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2",children:t.map((r,a)=>s.jsx(i,{title:r.title,author:r.author,src:r.src,tags:r.tags,cover:r.cover},a))})}export{o as B};

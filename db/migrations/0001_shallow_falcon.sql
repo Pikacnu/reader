@@ -1,0 +1,1 @@
+ALTER TABLE "chapter" ADD COLUMN "chapter_id" integer DEFAULT 0;

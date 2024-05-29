@@ -1,0 +1,1 @@
+ALTER TABLE "account" ADD COLUMN "about_me" text DEFAULT '';

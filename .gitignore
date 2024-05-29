@@ -1,4 +1,4 @@
-/storage
+
 node_modules
 .env
-build
+/build

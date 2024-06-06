@@ -69,7 +69,7 @@ export default function Edit() {
 	}
 	return (
 		<div>
-			<div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 :grid-cols-6 gap-2 m-4'>
+			<div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 m-4'>
 				{books.map((book, index) => {
 					const { title, author, cover, src, tags, id } = book;
 					return (

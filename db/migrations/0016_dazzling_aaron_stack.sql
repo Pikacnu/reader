@@ -1,0 +1,1 @@
+ALTER TABLE "register" ALTER COLUMN "id" SET DATA TYPE text;

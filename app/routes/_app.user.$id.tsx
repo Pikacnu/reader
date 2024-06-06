@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { db } from '~/services/db.server';
 import { book, account } from 'db/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { useLoaderData } from '@remix-run/react';
 import BookShelf from '~/compoents/bookshelf';
 import { BookData } from '~/compoents/bookcard';
@@ -21,7 +21,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 			})
 			.from(book)
 			.innerJoin(account, eq(account.id, id))
-			.where(eq(book.author_id, id))
+			.where(and(eq(book.published, true),eq(book.author_id, id)))
 	).map((e) => {
 		return {
 			src: `/book/${e.id}`,
@@ -54,7 +54,7 @@ export default function User() {
 							? user.about_me.split('\n').map((text, index) => {
 									return <p key={index}>{text}</p>;
 							  })
-							: 'No description available'}
+							: 'No about me available'}
 					</div>
 				</div>
 			</div>

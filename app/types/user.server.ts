@@ -13,6 +13,7 @@ export enum Platform {
   DISCORD = 'discord',
   GITHUB = 'github',
   GOOGLE = 'google',
+  LAGANTO = 'laganto',
 }
 export type User = {
   id: number;

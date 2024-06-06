@@ -77,7 +77,7 @@ export default function Account() {
 					>
 						<div className='flex flex-row items-center *:m-2'>
 							<p>{data.name}</p>
-							<p>
+							<p className='flex flex-row'>
 								{!Array.isArray(data.value)
 									? data.value
 									: data.value.map((item, index) => {

@@ -1,0 +1,2 @@
+ALTER TABLE "booklist" ADD CONSTRAINT "booklist_user_id_title_unique" UNIQUE("user_id","title");--> statement-breakpoint
+ALTER TABLE "booklist_book" ADD CONSTRAINT "booklist_book_booklist_id_book_id_unique" UNIQUE("booklist_id","book_id");

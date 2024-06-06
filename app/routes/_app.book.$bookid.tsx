@@ -5,6 +5,8 @@ import { db } from '~/services/db.server';
 import { book, account, chapter } from '~/../db/schema';
 import { eq } from 'drizzle-orm';
 import sad from '~/assests/sad.svg';
+import { booklistcontext } from '~/services/contexts';
+import { useContext } from 'react';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
 	const bookid = params.bookid;
@@ -58,7 +60,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 export default function Book() {
 	const { bookid, bookdata, author_id, avater } =
 		useLoaderData<typeof loader>();
-	console.log(bookdata);
+	const { booklistOpen, setBooklistOpen } = useContext(booklistcontext);
 	if (!bookdata) {
 		return (
 			<div className='w-full h-full flex items-center justify-center'>
@@ -76,10 +78,21 @@ export default function Book() {
 		);
 	}
 	return (
-		<BookInfo
-			bookinfo={bookdata}
-			author_link={'/user/' + author_id}
-			author_avatar={avater}
-		/>
+		<div className='flex flex-col w-full'>
+			<div className='flex flex-row-reverse mr-4'>
+				<button
+					onClick={() => {
+						setBooklistOpen(true);
+					}}
+				>
+					add to booklist
+				</button>
+			</div>
+			<BookInfo
+				bookinfo={bookdata}
+				author_link={'/user/' + author_id}
+				author_avatar={avater}
+			/>
+		</div>
 	);
 }

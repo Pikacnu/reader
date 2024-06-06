@@ -21,7 +21,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 		})
 		.from(book)
 		.where(and(eq(book.id, bookid), eq(book.published, true)));
-	if (bookdata.length === 0) {
+	if (!bookdata[0]) {
 		return redirect('/404');
 	}
 

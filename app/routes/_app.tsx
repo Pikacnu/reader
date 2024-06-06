@@ -6,16 +6,59 @@ import account from '~/assests/account.svg';
 import home from '~/assests/home.svg';
 import history from '~/assests/history.svg';
 import edit from '~/assests/edit.svg';
+import { db } from '~/services/db.server';
+import { booklist, booklist_follower } from 'db/schema';
+import { createContext, useContext, useState } from 'react';
+import { eq, or } from 'drizzle-orm';
+import { User } from '~/types/user.server';
+import { booklistcontext } from '~/services/contexts';
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {
-	const logindata = await authenticator.isAuthenticated(request);
-	return { logindata: logindata };
+	const logindata = (await authenticator.isAuthenticated(
+		request,
+	)) as User | null;
+	if (!logindata) return { logindata: logindata, booklists: [] };
+	const booklists = await db
+		.select()
+		.from(booklist)
+		.leftJoin(booklist_follower, eq(booklist.id, booklist_follower.booklist_id))
+		.where(
+			or(
+				eq(booklist_follower.follower_id, logindata.id),
+				eq(booklist.creator_id, logindata.id),
+			),
+		);
+	return { logindata: logindata, booklists: booklists };
 };
 
 export default function Layout() {
-	const { logindata } = useLoaderData<typeof loader>();
+	const { logindata, booklists } = useLoaderData<typeof loader>();
+	const [booklistOpen, setBooklistOpen] = useState(false);
 	return (
 		<div className='flex flex-col h-dvh w-full'>
+			{booklistOpen ? (
+				<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white z-10 shadow-lg flex-col flex min-w-[20vw] justify-center items-center'>
+					<h1>選擇要加入的書單</h1>
+					<button
+						className='absolute text-lg right-0'
+						onClick={() => setBooklistOpen(false)}
+					>
+						{' '}
+						X{' '}
+					</button>
+					{booklists.map((data, index) => {
+						return (
+							<div
+								key={index}
+								className='flex'
+							>
+								<p>{data?.booklist?.title || ''}</p>
+								<button>加入</button>
+							</div>
+						);
+					})}
+				</div>
+			) : null}
 			<div className='flex w-full h-12 lg:h-14 bg-gray-600 align-middle justify-center'>
 				<div className='h-12 w-12 lg:h-14 lg:w-16 relative'>
 					<Link to={'/account'}>
@@ -55,6 +98,11 @@ export default function Layout() {
 									name: 'History',
 									src: '/history',
 									icon: history,
+								},
+								{
+									name: 'book List',
+									src: '/booklist',
+									icon: '',
 								},
 								{
 									name: 'Edit',
@@ -101,7 +149,14 @@ export default function Layout() {
 						'w-full h-dvh flex-grow lg:w-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden'
 					}
 				>
-					<Outlet />
+					<booklistcontext.Provider
+						value={{
+							booklistOpen: booklistOpen,
+							setBooklistOpen: setBooklistOpen,
+						}}
+					>
+						<Outlet />
+					</booklistcontext.Provider>
 				</div>
 			</div>
 		</div>

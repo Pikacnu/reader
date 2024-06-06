@@ -29,6 +29,9 @@ dependencies:
   '@remix-run/serve':
     specifier: ^2.8.1
     version: 2.9.2(typescript@5.4.5)
+  '@types/nodemailer':
+    specifier: ^6.4.15
+    version: 6.4.15
   dotenv:
     specifier: ^16.4.5
     version: 16.4.5
@@ -41,6 +44,9 @@ dependencies:
   isbot:
     specifier: ^4.1.0
     version: 4.4.0
+  nodemailer:
+    specifier: ^6.9.13
+    version: 6.9.13
   postgres:
     specifier: ^3.4.4
     version: 3.4.4
@@ -53,6 +59,9 @@ dependencies:
   remix-auth:
     specifier: ^3.6.0
     version: 3.6.0(@remix-run/react@2.9.2)(@remix-run/server-runtime@2.9.2)
+  remix-auth-form:
+    specifier: ^1.5.0
+    version: 1.5.0(@remix-run/server-runtime@2.9.2)(remix-auth@3.6.0)
   remix-auth-socials:
     specifier: ^2.0.6
     version: 2.0.6(@remix-run/react@2.9.2)(@remix-run/server-runtime@2.9.2)
@@ -2345,7 +2354,12 @@ packages:
     resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
     dependencies:
       undici-types: 5.26.5
-    dev: true
+
+  /@types/nodemailer@6.4.15:
+    resolution: {integrity: sha512-0EBJxawVNjPkng1zm2vopRctuWVCxk34JcIlRuXSf54habUWdz1FB7wHDqOqvDa8Mtpt0Q3LTXQkAs2LNyK5jQ==}
+    dependencies:
+      '@types/node': 20.12.12
+    dev: false
 
   /@types/parse5@6.0.3:
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
@@ -6685,6 +6699,11 @@ packages:
     engines: {node: '>=0.1.97'}
     dev: false
 
+  /nodemailer@6.9.13:
+    resolution: {integrity: sha512-7o38Yogx6krdoBf3jCAqnIN4oSQFx+fMa0I7dK1D+me9kBxx12D+/33wSb+fhOCtIxvYJ+4x4IMEhmhCKfAiOA==}
+    engines: {node: '>=6.0.0'}
+    dev: false
+
   /normalize-package-data@5.0.0:
     resolution: {integrity: sha512-h9iPVIfrVZ9wVYQnxFgtw1ugSvGEMOlyPWWtm8BMJhnwyEL/FLbYbTY3V3PpjI/BUK67n9PEWDu6eHzu1fB15Q==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -7836,6 +7855,16 @@ packages:
       - supports-color
     dev: false
 
+  /remix-auth-form@1.5.0(@remix-run/server-runtime@2.9.2)(remix-auth@3.6.0):
+    resolution: {integrity: sha512-xWM7T41vi4ZsIxL3f8gz/D6g2mxrnYF7LnG+rG3VqwHh6l13xCoKLraxzWRdbKMVKKQCMISKZRXAeJh9/PQwBA==}
+    peerDependencies:
+      '@remix-run/server-runtime': ^1.0.0 || ^2.0.0
+      remix-auth: ^3.6.0
+    dependencies:
+      '@remix-run/server-runtime': 2.9.2(typescript@5.4.5)
+      remix-auth: 3.6.0(@remix-run/react@2.9.2)(@remix-run/server-runtime@2.9.2)
+    dev: false
+
   /remix-auth-github@1.7.0(@remix-run/server-runtime@2.9.2)(remix-auth@3.6.0):
     resolution: {integrity: sha512-xuy/DW44y/eWU+vUsf9NlQUtLhayMZEJszgaVr1txwjA0OzpPee5qNxPQ9RBg8WdnY3pMWck5m070MW5Jt7nxg==}
     peerDependencies:
@@ -8835,7 +8864,6 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-    dev: true
 
   /undici@6.17.0:
     resolution: {integrity: sha512-fs13QiDjPIzJ7gFAOal9CSG0c92rT2xw6MuMUJ4H30Eg5GCauLWYCCZA1tInjd6M4y+JZjVCCFr9pFpbhcC64w==}

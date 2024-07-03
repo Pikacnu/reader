@@ -7,10 +7,8 @@ dotenv.config();
 const migrationsClient = postgres(process.env.SQL_CONNECTION_LINK, {
 	max: 1,
 });
-const db = drizzle(migrationsClient,{
-	onnotice: (notice) => {
-		console.log('notice:', notice);
-	},
+const db = drizzle(migrationsClient, {
+	onnotice: (notice) => {},
 });
 const main = async () => {
 	try {

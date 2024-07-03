@@ -15,7 +15,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
 				failureRedirect: '/login',
 			});
 		} catch (e) {
-			console.log(e)
 			return e
 		}
 	}

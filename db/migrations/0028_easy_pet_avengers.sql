@@ -1,0 +1,1 @@
+ALTER TABLE "book" RENAME COLUMN "cz_link" TO "czlink";

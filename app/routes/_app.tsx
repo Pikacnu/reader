@@ -8,10 +8,12 @@ import history from '~/assests/history.svg';
 import edit from '~/assests/edit.svg';
 import { db } from '~/services/db.server';
 import { booklist, booklist_follower } from 'db/schema';
-import { createContext, useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { eq, or } from 'drizzle-orm';
 import { User } from '~/types/user.server';
-import { booklistcontext } from '~/services/contexts';
+import { booklistcontext, booklistBookidContext } from '~/services/contexts';
+import bookshelf from '~/assests/bookshelf.svg';
+import search from '~/assests/search.svg';
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {
 	const logindata = (await authenticator.isAuthenticated(
@@ -34,29 +36,61 @@ export let loader = async ({ request }: LoaderFunctionArgs) => {
 export default function Layout() {
 	const { logindata, booklists } = useLoaderData<typeof loader>();
 	const [booklistOpen, setBooklistOpen] = useState(false);
+	const [booklistBookid, setBooklistBookid] = useState(0);
+	const [searchString, setSearchString] = useState('');
+
+	useEffect(() => {
+		const search = new URLSearchParams(window.location.search);
+		let string: string[] = [];
+		search.forEach((value, key) => {
+			string.push(`${key}=${value}`);
+		});
+		let searchString = string.join(' ').replace('text=', '');
+		setSearchString(searchString);
+	}, []);
 	return (
 		<div className='flex flex-col h-dvh w-full'>
 			{booklistOpen ? (
-				<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white z-10 shadow-lg flex-col flex min-w-[20vw] justify-center items-center'>
+				<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white z-10 shadow-lg flex-col flex md:min-w-[20vw] min-w-[60vw] justify-center items-center *:m-2'>
 					<h1>選擇要加入的書單</h1>
 					<button
-						className='absolute text-lg right-0'
+						className='absolute text-lg right-0 top-0'
 						onClick={() => setBooklistOpen(false)}
 					>
 						{' '}
 						X{' '}
 					</button>
-					{booklists.map((data, index) => {
-						return (
-							<div
-								key={index}
-								className='flex'
-							>
-								<p>{data?.booklist?.title || ''}</p>
-								<button>加入</button>
-							</div>
-						);
-					})}
+					<hr className='bg-gray-800 w-2/3' />
+					<div className='flex w-full m-2 justify-center items-center flex-col'>
+						{booklists.map((data, index) => {
+							return (
+								<div
+									key={index}
+									className='flex justify-between w-1/2'
+								>
+									<p>{data?.booklist?.title || ''}</p>
+									<button
+										onClick={() => {
+											const formdata = new FormData();
+											formdata.append(
+												'booklist_id',
+												data?.booklist?.id.toString() || '',
+											);
+											formdata.append('book_id', booklistBookid.toString());
+											formdata.append('type', 'book');
+											fetch('/api/booklist', {
+												method: 'PATCH',
+												body: formdata,
+											});
+											setBooklistOpen(false);
+										}}
+									>
+										add
+									</button>
+								</div>
+							);
+						})}
+					</div>
 				</div>
 			) : null}
 			<div className='flex w-full h-12 lg:h-14 bg-gray-600 align-middle justify-center'>
@@ -71,17 +105,55 @@ export default function Layout() {
 					</Link>
 					<div className='w-16'></div>
 				</div>
-				<div className='grid grid-cols-6 grid-rows-1 w-full h-full bg-blue-800 *:justify-center *:flex *:items-center opacity-0'>
+				<div className='grid grid-cols-6 grid-rows-1 w-full h-full bg-blue-800 *:justify-center *:flex *:items-center '>
 					<div className='bg-blue-200 grid-cols-subgrid col-span-6 *:m-2 lg:*:m-4'>
 						<input
 							type='text'
 							placeholder='Search'
 							className='w-full'
+							value={searchString}
+							onChange={(e) => {
+								setSearchString(e.target.value);
+							}}
 						/>
-						<img
-							src=''
-							alt='Search'
-						/>
+						<button
+							onClick={() => {
+								if (searchString === '') return console.log('empty');
+								let temp = searchString.split(' ');
+								const searchTarget: {
+									tag?: string;
+									author?: string;
+									text?: string;
+								} = Object.assign(
+									{},
+									...temp.map((e) => {
+										if (e.startsWith('tag=')) {
+											return {
+												tag: e.replace('tag=', ''),
+											};
+										} else if (e.startsWith('author=')) {
+											return {
+												author: e.replace('author=', ''),
+											};
+										}
+										return {
+											text: e,
+										};
+									}),
+								);
+								const search = new URLSearchParams();
+								Object.entries(searchTarget || {}).forEach(([key, value]) => {
+									search.append(key, value || '');
+								});
+								window.location.href = `/search?${search.toString()}`;
+							}}
+						>
+							<img
+								className='object-cover h-8 w-8 lg:h-12 lg:w-12 p-2'
+								src={search}
+								alt='Search'
+							/>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -100,9 +172,9 @@ export default function Layout() {
 									icon: history,
 								},
 								{
-									name: 'book List',
+									name: 'BookShelf',
 									src: '/booklist',
-									icon: '',
+									icon: bookshelf,
 								},
 								{
 									name: 'Edit',
@@ -137,7 +209,7 @@ export default function Layout() {
 								<img
 									src={item.icon}
 									alt='ICON'
-									className='object-cover h-8 w-8 lg:h-12 lg:w-12'
+									className='object-cover h-8 w-8 lg:h-12 lg:w-12 p-2'
 								/>
 								<p className='text-sm'>{item.name}</p>
 							</Link>
@@ -155,7 +227,14 @@ export default function Layout() {
 							setBooklistOpen: setBooklistOpen,
 						}}
 					>
-						<Outlet />
+						<booklistBookidContext.Provider
+							value={{
+								bookId: booklistBookid,
+								setBookId: setBooklistBookid,
+							}}
+						>
+							<Outlet />
+						</booklistBookidContext.Provider>
 					</booklistcontext.Provider>
 				</div>
 			</div>

@@ -127,6 +127,90 @@
       "when": 1717515819596,
       "tag": "0017_far_firestar",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1717767752010,
+      "tag": "0018_magenta_shriek",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1719851062239,
+      "tag": "0019_common_dark_beast",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1719851071725,
+      "tag": "0020_romantic_enchantress",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1719851188879,
+      "tag": "0021_supreme_ultimo",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "6",
+      "when": 1719851195820,
+      "tag": "0022_silky_archangel",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "6",
+      "when": 1719855870131,
+      "tag": "0023_dear_valeria_richards",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "6",
+      "when": 1719896503034,
+      "tag": "0024_jazzy_matthew_murdock",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "6",
+      "when": 1719901160494,
+      "tag": "0025_pink_moonstone",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "6",
+      "when": 1719905444408,
+      "tag": "0026_needy_iron_fist",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "6",
+      "when": 1719905454377,
+      "tag": "0027_blushing_sphinx",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "6",
+      "when": 1719906052115,
+      "tag": "0028_easy_pet_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "6",
+      "when": 1719906164679,
+      "tag": "0029_bouncy_virginia_dare",
+      "breakpoints": true
     }
   ]
 }

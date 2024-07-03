@@ -20,6 +20,7 @@ export const account = pgTable('account', {
 	link_google: boolean('link_google').default(false),
 	link_github: boolean('link_github').default(false),
 	link_laganto: boolean('link_laganto').default(false),
+	system: boolean('system').default(false),
 	password: text('password'),
 });
 
@@ -32,7 +33,9 @@ export const register = pgTable('register', {
 
 export const book = pgTable('book', {
 	id: serial('id').primaryKey(),
-	author_id: integer('author_id').references(() => account.id),
+	author_id: integer('author_id').references(() => account.id, {
+		onDelete: 'cascade',
+	}),
 	title: text('title').default('Untitled'),
 	cover: text('cover'),
 	description: text('description').default('No description available'),
@@ -43,13 +46,16 @@ export const book = pgTable('book', {
 	published: boolean('published').default(false),
 	created_at: timestamp('created_at', { withTimezone: false }).defaultNow(),
 	update_at: timestamp('update_at', { withTimezone: false }).defaultNow(),
+	cz_link: text('cz_link'),
 });
 
 export const chapter = pgTable(
 	'chapter',
 	{
 		id: serial('id').primaryKey(),
-		book_id: integer('book_id').references(() => book.id),
+		book_id: integer('book_id').references(() => book.id, {
+			onDelete: 'cascade',
+		}),
 		title: text('title').default('Untitled'),
 		content: text('content')
 			.array()
@@ -63,8 +69,12 @@ export const chapter = pgTable(
 
 export const comment = pgTable('comment', {
 	id: serial('id').primaryKey(),
-	book_id: integer('book_id').references(() => book.id),
-	user_id: integer('user_id').references(() => account.id),
+	book_id: integer('book_id').references(() => book.id, {
+		onDelete: 'cascade',
+	}),
+	user_id: integer('user_id').references(() => account.id, {
+		onDelete: 'cascade',
+	}),
 	content: text('content').default(''),
 	created_at: timestamp('created_at', { withTimezone: false }).defaultNow(),
 	update_at: timestamp('update_at', { withTimezone: false }).defaultNow(),
@@ -72,15 +82,23 @@ export const comment = pgTable('comment', {
 
 export const like = pgTable('like', {
 	id: serial('id').primaryKey(),
-	book_id: integer('book_id').references(() => book.id),
-	user_id: integer('user_id').references(() => account.id),
+	book_id: integer('book_id').references(() => book.id, {
+		onDelete: 'cascade',
+	}),
+	user_id: integer('user_id').references(() => account.id, {
+		onDelete: 'cascade',
+	}),
 	created_at: timestamp('created_at', { withTimezone: false }).defaultNow(),
 });
 
 export const follow = pgTable('follow', {
 	id: serial('id').primaryKey(),
-	follower_id: integer('follower_id').references(() => account.id),
-	following_id: integer('following_id').references(() => account.id),
+	follower_id: integer('follower_id').references(() => account.id, {
+		onDelete: 'cascade',
+	}),
+	following_id: integer('following_id').references(() => account.id, {
+		onDelete: 'cascade',
+	}),
 	created_at: timestamp('created_at', { withTimezone: false }).defaultNow(),
 });
 
@@ -88,8 +106,12 @@ export const history = pgTable(
 	'history',
 	{
 		id: serial('id').primaryKey(),
-		book_id: integer('book_id').references(() => book.id),
-		user_id: integer('user_id').references(() => account.id),
+		book_id: integer('book_id').references(() => book.id, {
+			onDelete: 'cascade',
+		}),
+		user_id: integer('user_id').references(() => account.id, {
+			onDelete: 'cascade',
+		}),
 		chapter: integer('chapter').default(0),
 		page: integer('page').default(0),
 		created_at: timestamp('created_at', { withTimezone: false }).defaultNow(),
@@ -114,7 +136,9 @@ export const booklist = pgTable(
 	'booklist',
 	{
 		id: serial('id').primaryKey(),
-		creator_id: integer('user_id').references(() => account.id),
+		creator_id: integer('user_id').references(() => account.id, {
+			onDelete: 'cascade',
+		}),
 		title: text('title').default('Untitled'),
 		public: boolean('public').default(false),
 	},
@@ -125,7 +149,9 @@ export const booklist = pgTable(
 
 export const booklist_follower = pgTable('booklist_follower', {
 	id: serial('id').primaryKey(),
-	booklist_id: integer('booklist_id').references(() => booklist.id),
+	booklist_id: integer('booklist_id').references(() => booklist.id, {
+		onDelete: 'cascade',
+	}),
 	follower_id: integer('follower_id').references(() => account.id),
 });
 
@@ -133,8 +159,12 @@ export const booklist_book = pgTable(
 	'booklist_book',
 	{
 		id: serial('id').primaryKey(),
-		booklist_id: integer('booklist_id').references(() => booklist.id),
-		book_id: integer('book_id').references(() => book.id),
+		booklist_id: integer('booklist_id').references(() => booklist.id, {
+			onDelete: 'cascade',
+		}),
+		book_id: integer('book_id').references(() => book.id, {
+			onDelete: 'cascade',
+		}),
 	},
 	(table) => ({
 		unq: unique().on(table.booklist_id, table.book_id),

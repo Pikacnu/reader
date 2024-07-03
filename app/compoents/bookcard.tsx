@@ -11,10 +11,10 @@ export interface BookData {
 export default function BookCard(bookprops: BookData) {
 	const { title, author, cover, src, tags } = bookprops;
 	return (
-		<div className='flex items-center justify-center w-full h-full'>
+		<div className='flex items-center justify-center w-full h-full overflow-hidden'>
 			<Link
 				className={`flex flex-col lg:min-w-48 min-w-8 p-4 border-gray-200 border *:m-0
-				md:flex-row md:w-96 md:h-48 w-32 h-48 md:*:p-2 
+				md:flex-row md:w-96 md:h-48 w-40 h-72 md:*:p-2 
 				shadow-slate-300 hover:shadow-xl hover:border-0`}
 				to={src}
 			>
@@ -25,15 +25,15 @@ export default function BookCard(bookprops: BookData) {
 						alt={`${title} Cover`}
 					/>
 				</div>
-				<div className='grid grid-rows-4 md:w-1/2'>
+				<div className='flex flex-col md:w-1/2 *:overflow-clip'>
 					<p>{title}</p>
 					<p>{author}</p>
-					<div className='h-min grid-rows-subgrid row-span-2 flex flex-wrap overflow-hidden'>
+					<div className='h-min grid-rows-subgrid row-span-2 flex flex-wrap'>
 						{tags?.slice(0, 6).map((tag, index) => {
 							return (
 								<p
 									key={index}
-									className='border  border-gray-200'
+									className='border border-gray-200'
 								>
 									{tag}
 								</p>

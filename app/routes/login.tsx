@@ -60,7 +60,7 @@ export default function Login() {
 	const fetcher = useFetcher();
 	return (
 		<div className='h-screen flex justify-center items-center bg-zinc-300'>
-			<div className='flex flex-col *:m-4  items-center justify-center relative w-2/3 h-2/3 shadow-xl bg-white rounded-xl'>
+			<div className='flex flex-col *:m-4  items-center justify-center relative lg:w-2/3 w-4/5 h-2/3 shadow-xl bg-white rounded-xl'>
 				<h1 className='text-3xl font-bold'>
 					{type.charAt(0).toUpperCase() + type.slice(1)}
 				</h1>
@@ -81,7 +81,7 @@ export default function Login() {
 					<>
 						<div className='flex items-center flex-col'>
 							<fetcher.Form
-								className='flex flex-col *:p-2 *:shadow-lg *:rounded-lg *:m-2 [&>input]:'
+								className='flex flex-col *:p-2 *:shadow-lg *:rounded-lg *:m-2 '
 								action={`/auth/email`}
 								method='post'
 							>
@@ -92,7 +92,7 @@ export default function Login() {
 									ref={email}
 									required
 								/>
-								<div className='flex'>
+								<div className='flex relative'>
 									<input
 										type={showPassword ? 'text' : 'password'}
 										placeholder='password'
@@ -105,7 +105,7 @@ export default function Login() {
 											e.preventDefault();
 											setShowPassword(!showPassword);
 										}}
-										className='w-10'
+										className='w-10 absolute right-0 top-50%'
 									>
 										{showPassword ? 'H' : 'S'}
 									</button>

@@ -19,6 +19,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		await db
 			.select()
 			.from(book)
+			.limit(10)
 			.innerJoin(account, eq(book.author_id, account.id))
 			.where(
 				and(
@@ -35,6 +36,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		await db
 			.select()
 			.from(book)
+			.limit(10)
 			.innerJoin(account, eq(book.author_id, account.id))
 			.where(
 				and(
@@ -51,9 +53,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		return {
 			recently_add,
 			recently_update,
+			all: [],
 			recently_read: [],
 		};
 	}
+
+	const all = (
+		await db
+			.select()
+			.from(book)
+			.limit(10)
+			.innerJoin(account, eq(book.author_id, account.id))
+	).map((data) =>
+		Object.assign(data.book, { author_name: data.account.name || '' }),
+	);
 
 	return {
 		recently_add,
@@ -105,27 +118,31 @@ export default function Index() {
 			title: 'Popular',
 			books: [],
 		},
+		{
+			title: 'All',
+			books: [],
+		},
 	];
 	return (
-		<div className='overflow-y-hidden m-2 lg:m-4'>
+		<div className='overflow-hidden m-2 lg:m-4'>
 			{data.map((item, index) =>
 				item.books.length ? (
 					<div
 						key={index}
-						className=' justify-center overflow-y-hidden overflow-x-auto'
+						className='justify-center flex flex-1 flex-col'
 					>
 						<h1 className='text-2xl'>{item.title}</h1>
 						<hr />
-						<div className='h-60 mt-2 lg:m-2 flex fle-row overflow-hidden justify-start flex-shrink'>
+						<div className='mt-2 lg:m-2 *:m-2 flex overflow-auto *:min-w-max *:min-h-max'>
 							{item.books.map((e, i) => {
 								return (
 									<BookCard
 										key={i * index * 10}
-										title={e.title || ''}
-										tags={e.tags || []}
-										cover={e.cover || ''}
-										author={e.author_name}
-										src={`/book/${e.id}`}
+										title={e?.title || ''}
+										tags={e?.tags || []}
+										cover={e?.cover || ''}
+										author={e?.author_name || ''}
+										src={`/book/${e?.id}`}
 									/>
 								);
 							})}
@@ -133,6 +150,7 @@ export default function Index() {
 					</div>
 				) : null,
 			)}
+			<div className='h-16'></div>
 		</div>
 	);
 }

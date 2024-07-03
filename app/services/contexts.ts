@@ -9,3 +9,13 @@ export let booklistcontext = createContext<{
 		(prev: boolean) => prev;
 	},
 });
+
+export let booklistBookidContext = createContext<{
+	bookId: number;
+	setBookId: React.Dispatch<React.SetStateAction<number>> | (() => {});
+}>({
+	bookId: 0,
+	setBookId: () => {
+		(prev: number) => prev;
+	},
+});

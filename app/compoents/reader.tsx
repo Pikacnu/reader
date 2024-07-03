@@ -113,7 +113,7 @@ export default function Reader({
 		const verticalTextCount = Math.floor(deviceHeight / textHeight);
 		const horizontalTextCount =
 			Math.floor(deviceWidth / textWidth) -
-			(device === DeviceType.desktop ? 3 : 1);
+			(device === DeviceType.desktop ? 5 : 1);
 		const lines: string[] = [chapter.pages[currentChapter]].reduce(
 			(acc, cur) => {
 				let currentLine = cur.content.reduce(

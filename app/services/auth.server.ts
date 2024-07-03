@@ -25,7 +25,7 @@ export let authenticator = new Authenticator(sessionStorage);
 // 這裡是一個範例，你可以根據自己的需求來實作
 
 const getCallback = (provider: SocialsProvider) => {
-	return `https://${process.env.HOST_LINK}/auth/${provider}/callback`;
+	return `${process.env.HOST_LINK}/auth/${provider}/callback`;
 };
 
 const newUser = async (profile: Profile) => {

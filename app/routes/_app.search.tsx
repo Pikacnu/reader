@@ -33,6 +33,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 				),
 			),
 		);
+
 	const result = bookinfo
 		.map((book) => ({
 			link: `/book/	${book.book.id}`,
@@ -45,7 +46,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 			allow_comments: book.book.allow_comments,
 			published: book.book.published,
 		}))
-		.slice(page * 10, page * 10 + 10);
+		.slice(
+			page * 10,
+			page * 10 + 10 > bookinfo.length ? bookinfo.length : page * 10 + 10,
+		);
 	return { data: result, hostlink: process.env.HOST_LINK };
 };
 
@@ -72,7 +76,7 @@ export default function Search() {
 	return (
 		<div className='m-4 mb-16'>
 			<h1 className='text-2xl'>Search Result:</h1>
-			<div className='grid grid-cols-4 *:outline *:m-4'>
+			<div className='grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 *:outline *:m-4'>
 				{data.map((book: any, index: number) => (
 					<Link
 						key={index}

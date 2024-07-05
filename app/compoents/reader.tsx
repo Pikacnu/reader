@@ -110,10 +110,10 @@ export default function Reader({
 	}, []);
 
 	const pages = useMemo(() => {
-		const verticalTextCount = Math.floor(deviceHeight / textHeight);
+		const verticalTextCount =
+			Math.floor(deviceHeight / textHeight) * (textDirection === 'ltr' ? 1.7 : 0.9) + (textDirection==='ltr'?-10:2);
 		const horizontalTextCount =
-			Math.floor(deviceWidth / textWidth) -
-			(device === DeviceType.desktop ? 5 : 1);
+			Math.floor(deviceWidth / textWidth) * (textDirection === 'ltr' ? 1 : 4);
 		const lines: string[] = [chapter.pages[currentChapter]].reduce(
 			(acc, cur) => {
 				let currentLine = cur.content.reduce(
@@ -157,7 +157,9 @@ export default function Reader({
 				const lastPage = acc[acc.length - 1];
 				if (
 					lastPage.length <
-					(textDirection !== 'ltr' ? verticalTextCount : horizontalTextCount)
+					(textDirection !== 'ltr'
+						? verticalTextCount 
+						: horizontalTextCount * 1.7)
 				) {
 					lastPage.push(cur);
 					return acc;
@@ -192,7 +194,6 @@ export default function Reader({
 
 	useEffect(() => {
 		const showtip = () => {
-			console.log(changeChapterCheck.current);
 			if (changeChapterCheck.current === 0) {
 				document.getElementById('changeChapter')?.setAttribute('hidden', '');
 			} else {
@@ -202,9 +203,14 @@ export default function Reader({
 		const handleKeydown = (e: KeyboardEvent) => {
 			if (e.key === Input.Prev) {
 				if (currentPage === 0 && currentChapter === 0) return;
+
 				if (currentChapter === 0) {
 					if (page_index) page_index.current = currentPage - 1;
 					setCurrentPage((prev) => prev - 1);
+				}
+				if (currentPage !== 0) {
+					if (page_index) page_index.current = currentPage - 1;
+					return setCurrentPage((prev) => prev - 1);
 				}
 				if (changeChapterCheck.current !== -1) {
 					changeChapterCheck.current -= 1;
@@ -274,16 +280,16 @@ export default function Reader({
 	const sizeSet = useCallback(() => {
 		setDeviceWidth(window.innerWidth);
 		setDeviceHeight(window.innerHeight);
+		let text = document.getElementById('textsize')?.getBoundingClientRect();
 		setTextWidth(
 			Math.floor(
-				(document.getElementById('textsize')?.getBoundingClientRect().width ||
-					0) / 2,
+				((text?.width || 0) / 2 + ((text?.left || 0) + (text?.right || 0))) / 2,
 			),
 		);
 		setTextHeight(
 			Math.floor(
-				(document.getElementById('textsize')?.getBoundingClientRect().height ||
-					0) / 2,
+				((text?.height || 0) / 2 + ((text?.bottom || 0) + (text?.top || 0))) /
+					2,
 			),
 		);
 	}, []);
@@ -297,7 +303,10 @@ export default function Reader({
 				sizeSet();
 			});
 		};
-	}, [deviceHeight, deviceWidth, textHeight, textWidth]);
+	});
+	useEffect(() => {
+		sizeSet();
+	}, [deviceHeight, deviceWidth, textHeight, textWidth, fontsize, textLeading]);
 
 	return (
 		<div
@@ -305,7 +314,7 @@ export default function Reader({
 			style={{ backgroundColor: bgcolor, color: textcolor, fontSize: fontsize }}
 		>
 			<div
-				className='absolute bg-yellow-400 m-2 p-2 rounded-full'
+				className='absolute bg-yellow-400 m-2 p-2 rounded-full z-50'
 				id='changeChapter'
 				hidden
 			>

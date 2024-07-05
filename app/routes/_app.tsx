@@ -106,7 +106,40 @@ export default function Layout() {
 					<div className='w-16'></div>
 				</div>
 				<div className='grid grid-cols-6 grid-rows-1 w-full h-full bg-blue-800 *:justify-center *:flex *:items-center '>
-					<div className='bg-blue-200 grid-cols-subgrid col-span-6 *:m-2 lg:*:m-4'>
+					<form
+						className='bg-blue-200 grid-cols-subgrid col-span-6 *:m-2 lg:*:m-4'
+						onSubmit={(e) => {
+							e.preventDefault();
+							if (searchString === '') return console.log('empty');
+							let temp = searchString.split(' ');
+							const searchTarget: {
+								tag?: string;
+								author?: string;
+								text?: string;
+							} = Object.assign(
+								{},
+								...temp.map((e) => {
+									if (e.startsWith('tag=')) {
+										return {
+											tag: e.replace('tag=', ''),
+										};
+									} else if (e.startsWith('author=')) {
+										return {
+											author: e.replace('author=', ''),
+										};
+									}
+									return {
+										text: e,
+									};
+								}),
+							);
+							const search = new URLSearchParams();
+							Object.entries(searchTarget || {}).forEach(([key, value]) => {
+								search.append(key, value || '');
+							});
+							window.location.href = `/search?${search.toString()}`;
+						}}
+					>
 						<input
 							type='text'
 							placeholder='Search'
@@ -116,45 +149,14 @@ export default function Layout() {
 								setSearchString(e.target.value);
 							}}
 						/>
-						<button
-							onClick={() => {
-								if (searchString === '') return console.log('empty');
-								let temp = searchString.split(' ');
-								const searchTarget: {
-									tag?: string;
-									author?: string;
-									text?: string;
-								} = Object.assign(
-									{},
-									...temp.map((e) => {
-										if (e.startsWith('tag=')) {
-											return {
-												tag: e.replace('tag=', ''),
-											};
-										} else if (e.startsWith('author=')) {
-											return {
-												author: e.replace('author=', ''),
-											};
-										}
-										return {
-											text: e,
-										};
-									}),
-								);
-								const search = new URLSearchParams();
-								Object.entries(searchTarget || {}).forEach(([key, value]) => {
-									search.append(key, value || '');
-								});
-								window.location.href = `/search?${search.toString()}`;
-							}}
-						>
+						<button>
 							<img
 								className='object-cover h-8 w-8 lg:h-12 lg:w-12 p-2'
 								src={search}
 								alt='Search'
 							/>
 						</button>
-					</div>
+					</form>
 				</div>
 			</div>
 			<div className='flex flex-col-reverse lg:flex-row overflow-hidden flex-grow lg:h-[calc(100dvh-3.5rem)] h-dvh'>

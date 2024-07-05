@@ -15,6 +15,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 	const page = searchparams.get('page');
 	const bookid = parseInt(params.bookid as string);
 	const user = (await authenticator.isAuthenticated(request)) as User;
+	
 	const bookdata = await db
 		.select({
 			book_name: book.title,
@@ -25,12 +26,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 		return redirect('/404');
 	}
 
-	const reader_data = (
+	const reader_data = user?(
 		await db
 			.select()
 			.from(reader_setting)
 			.where(eq(reader_setting.user_id, user.id))
-	)[0];
+	)[0]:null;
 
 	return {
 		data: {
@@ -41,7 +42,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 					pageIndex: chapter.chapter_id,
 				})
 				.from(chapter)
-				.where(eq(chapter.book_id, bookid)),
+				.where(eq(chapter.book_id, bookid)).orderBy(chapter.chapter_id),
 		},
 		book: {
 			title: bookdata[0].book_name,

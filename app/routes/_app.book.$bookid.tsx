@@ -81,7 +81,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 			chapter_id: chapter.chapter_id,
 		})
 		.from(chapter)
-		.where(eq(chapter.book_id, parseInt(bookid || '0')));
+		.where(eq(chapter.book_id, parseInt(bookid || '0')))
+		.orderBy(chapter.chapter_id);
 
 	if (chapters.length === 0 && bookdata.cz_link === '') {
 		return {

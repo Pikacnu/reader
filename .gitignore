@@ -2,4 +2,3 @@ node_modules
 .env
 build
 ssl
-vite.config.js

@@ -10,50 +10,6 @@ import { useContext, useEffect } from 'react';
 import bookmark_add from '~/assests/bookmark_add.svg';
 import jsdom from 'jsdom';
 
-async function getBookChapters(link: string, chapter = 0) {
-	const novelLink = link.split('/').pop();
-	const bookPageRequest = fetch(`https://czbooks.net/n/${novelLink}`, {
-		method: 'GET',
-		headers: {
-			'User-Agent':
-				'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',
-		},
-	});
-	const html = await (await bookPageRequest).text();
-	const { window } = new jsdom.JSDOM(html);
-	const data = window.document
-		?.getElementById('chapter-list')
-		?.querySelectorAll('a');
-
-	let chapterLinks: string[] = [];
-	data?.forEach((a) => chapterLinks.push(a.href));
-	const get = async (a: string) => {
-		const chapterRequest = await fetch(`https:${a}`, {
-			method: 'GET',
-			headers: {
-				'User-Agent':
-					'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',
-			},
-		});
-		const html = await chapterRequest.text();
-		if (chapterRequest.status !== 200) return console.log('Error');
-		const { window } = new jsdom.JSDOM(html);
-		const content = window.document.querySelector('.content')?.textContent;
-		if (content === null) return [];
-		return content?.split('\n').filter((a) => a !== '') || [];
-	};
-
-	let lists: any[] = [];
-	while (chapterLinks.length > 0) {
-		const current = chapterLinks.splice(0, 1);
-		let list = await Promise.all(current.map(async (e) => await get(e)));
-		lists = lists.concat(list);
-		console.log(lists.length);
-		await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
-	}
-	return lists;
-}
-
 export const loader = async ({ params }: LoaderFunctionArgs) => {
 	const bookid = params.bookid;
 	const bookdata = ((data) => {
@@ -92,30 +48,13 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 			avater: bookdata[2],
 		};
 	}
-	if (chapters.length === 0 && bookdata[0].cz_link !== '') {
-		console.log('Getting Chapters');
-		getBookChapters(bookdata[0].cz_link).then((data) => {
-			data.forEach(async (e, i) => {
-				console.log(parseInt(bookid || '0'), i);
-				const result = await db
-					.insert(chapter)
-					.values({
-						book_id: parseInt(bookid || '0'),
-						title: `Chapter ${i}`,
-						content: e,
-						chapter_id: i,
-					})
-					.onConflictDoUpdate({
-						target: [chapter.book_id, chapter.chapter_id],
-						set: {
-							content: e,
-						},
-					})
-					.returning();
-				console.log(result);
-			});
-		});
+
+	if (chapters.length === 0 && bookdata.cz_link !== '') {
+		await fetch(
+			`https://localhost:${process.env.FETCHER_SERVER_PORT}/add/${bookdata.cz_link}/${bookid}`,
+		);
 	}
+
 	return json({
 		bookid: params.bookid,
 		bookdata: Object.assign(bookdata[0], {

@@ -71,11 +71,13 @@ class processBook {
 		return;
 	}
 	addChapter(book: book) {
+		if (this.bookList.some((e) => e.index === book.index)) return;
 		this.bookList.push(book);
 		this.bookList = this.bookList.sort((a, b) => a.index - b.index);
 		return;
 	}
 	async addBook(link: string, bookid: number) {
+		if (this.bookList.some((e) => e.bookid === bookid)) return;
 		const chapters = await getBookChapters(link, bookid);
 		this.addChapters(chapters);
 	}
@@ -118,7 +120,7 @@ app.get('/add/:link/:bookid', (req, res) => {
 	res.send('Added');
 });
 
-app.listen(3000, () => {
+app.listen(3100, () => {
 	console.log('Server running');
 });
 

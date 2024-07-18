@@ -80,7 +80,7 @@ export default function BookInfo({
 				</div>
 				<hr />
 				<br />
-				<div className='flex flex-col'>
+				<div className='flex flex-col h-max'>
 					<p>Chapters</p>
 					<div className='flex flex-col m-2 *:p-2'>
 						{(chapters ? chapters : []).map((chapter, index) => {

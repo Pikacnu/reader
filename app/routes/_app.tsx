@@ -220,7 +220,7 @@ export default function Layout() {
 				</div>
 				<div
 					className={
-						'w-full h-dvh flex-grow lg:w-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden'
+						'w-full h-full flex-grow lg:w-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden'
 					}
 				>
 					<booklistcontext.Provider

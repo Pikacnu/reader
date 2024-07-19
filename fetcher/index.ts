@@ -93,6 +93,10 @@ class processBook {
 			content: content,
 			chapter_id: book.index,
 		});
+		if (this.bookList.length === 0 && chain)
+			return setTimeout(() => {
+				this.process(chain);
+			}, 10 * 60 * 1000);
 		if (chain) this.process(chain);
 		return;
 	}

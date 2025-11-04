@@ -7,6 +7,7 @@ import { booklist_follower, booklist } from 'db/schema';
 import { eq, or } from 'drizzle-orm';
 import { useFetcher } from '@remix-run/react';
 import bookshelf from '~/assests/bookshelf.svg';
+import { useTranslation } from 'react-i18next';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userdata = (await authenticator.isAuthenticated(request)) as User;
@@ -31,6 +32,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function BookList() {
+  const { t } = useTranslation();
   const { booklists } = useLoaderData<typeof loader>();
   const booklist = useFetcher();
   return (
@@ -47,7 +49,9 @@ export default function BookList() {
                 src={bookshelf}
                 alt='bookshelf'
               />
-              <p>Title : {booklist?.booklist?.title}</p>
+              <p>
+                {t('bookList.titleLabel')}: {booklist?.booklist?.title}
+              </p>
             </Link>
           );
         })}
@@ -61,13 +65,13 @@ export default function BookList() {
             type='text'
             name='title'
             id='title'
-            placeholder='title'
+            placeholder={t('bookList.placeholder')}
           />
           <button
             onClick={() => {}}
             className='bg-slate-400 dark:bg-slate-700 text-black dark:text-white rounded-lg mt-2 p-2 bg-opacity-40 hover:bg-opacity-80 dark:bg-opacity-40 dark:hover:bg-opacity-80'
           >
-            Create
+            {t('bookList.create')}
           </button>
         </booklist.Form>
       </div>

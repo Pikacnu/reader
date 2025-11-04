@@ -12,6 +12,7 @@ import { authenticator } from '~/services/auth.server';
 import { asc, eq, inArray } from 'drizzle-orm';
 import { User } from '~/types/user.server';
 import sad from '~/assests/sad.svg';
+import { useTranslation } from 'react-i18next';
 
 export const loader: LoaderFunction = async ({
   request,
@@ -70,6 +71,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function BookHistory() {
+  const { t } = useTranslation();
   const { books }: { books: BookData[] } = useLoaderData<typeof loader>();
   if (!books) {
     return (
@@ -81,7 +83,7 @@ export default function BookHistory() {
             alt='Sad Face'
           />
           <div className='flex items-center ml-8 text-lg'>
-            <p>No Books Found</p>
+            <p>{t('history.noBooksFound')}</p>
           </div>
         </div>
       </div>

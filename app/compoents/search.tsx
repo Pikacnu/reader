@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, KeyboardEvent } from 'react';
 import { useNavigate } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
 
 interface SearchFilter {
   id: string;
@@ -12,14 +13,6 @@ interface FilterSuggestion {
   description: string;
   placeholder: string;
 }
-
-const filterSuggestions: FilterSuggestion[] = [
-  { prefix: 'from:', description: '搜尋特定作者', placeholder: '作者名稱' },
-  { prefix: 'tag:', description: '搜尋標籤', placeholder: '標籤名稱' },
-  { prefix: 'text:', description: '搜尋書本描述內容', placeholder: '描述' },
-  { prefix: 'before:', description: '日期之前', placeholder: 'YYYY-MM-DD' },
-  { prefix: 'after:', description: '日期之後', placeholder: 'YYYY-MM-DD' },
-];
 
 interface SearchProps {
   isInline?: boolean;
@@ -39,6 +32,36 @@ export default function Search({
   const [groupFilters, setGroupFilters] = useState(true); // 是否分組顯示過濾器
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  // 預設過濾器建議
+  const filterSuggestions: FilterSuggestion[] = [
+    {
+      prefix: 'from:',
+      description: t('search.filters.from'),
+      placeholder: t('search.placeholders.author'),
+    },
+    {
+      prefix: 'tag:',
+      description: t('search.filters.tag'),
+      placeholder: t('search.placeholders.tag'),
+    },
+    {
+      prefix: 'text:',
+      description: t('search.filters.text'),
+      placeholder: t('search.placeholders.text'),
+    },
+    {
+      prefix: 'before:',
+      description: t('search.filters.before'),
+      placeholder: t('search.placeholders.before'),
+    },
+    {
+      prefix: 'after:',
+      description: t('search.filters.after'),
+      placeholder: t('search.placeholders.after'),
+    },
+  ];
 
   // 使用自訂過濾器或預設過濾器
   const activeFilters = customFilters || filterSuggestions;
@@ -287,7 +310,9 @@ export default function Search({
                         <button
                           onClick={() => removeFilter(filter.id)}
                           className='ml-1 hover:bg-blue-600 rounded-full w-4 h-4 flex items-center justify-center'
-                          aria-label={`移除 ${filter.value}`}
+                          aria-label={`${t('search.removeFilter')} ${
+                            filter.value
+                          }`}
                         >
                           ×
                         </button>
@@ -301,10 +326,10 @@ export default function Search({
                     <button
                       onClick={() => removeFiltersByType(type)}
                       className='ml-1 hover:bg-blue-600 rounded px-1 text-xs'
-                      aria-label={`移除所有 ${type} 過濾器`}
-                      title='移除全部'
+                      aria-label={t('search.removeAllFilters', { type })}
+                      title={t('search.removeAll')}
                     >
-                      ✕全部
+                      {t('search.removeAll')}
                     </button>
                   )}
                 </div>
@@ -320,7 +345,7 @@ export default function Search({
                   <button
                     onClick={() => removeFilter(filter.id)}
                     className='ml-1 hover:bg-blue-600 rounded-full w-4 h-4 flex items-center justify-center'
-                    aria-label='移除過濾器'
+                    aria-label={t('search.removeFilter')}
                   >
                     ×
                   </button>
@@ -334,9 +359,7 @@ export default function Search({
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            placeholder={
-              filters.length === 0 ? '搜尋書籍... (試試 from:, tag:)' : ''
-            }
+            placeholder={filters.length === 0 ? t('search.placeholder') : ''}
             className='flex-1 bg-transparent outline-none text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400'
           />
 
@@ -345,7 +368,7 @@ export default function Search({
             onClick={handleSearch}
             className='px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors'
           >
-            搜尋
+            {t('search.button')}
           </button>
         </div>
 
@@ -371,7 +394,7 @@ export default function Search({
                       {suggestion.description}
                     </div>
                     <div className='text-xs text-gray-500 dark:text-gray-400'>
-                      範例: {suggestion.prefix}
+                      {t('search.example')}: {suggestion.prefix}
                       {suggestion.placeholder}
                     </div>
                   </div>
@@ -405,9 +428,13 @@ export default function Search({
             <button
               onClick={() => setGroupFilters(!groupFilters)}
               className='ml-auto px-3 py-1 text-xs bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 rounded-md transition-colors flex items-center gap-1'
-              title={groupFilters ? '取消分組' : '分組顯示'}
+              title={
+                groupFilters
+                  ? t('search.groupTooltip')
+                  : t('search.ungroupTooltip')
+              }
             >
-              {groupFilters ? '📦 已分組' : '📄 未分組'}
+              {groupFilters ? t('search.grouped') : t('search.ungrouped')}
             </button>
           )}
         </div>

@@ -8,6 +8,7 @@ import mail from '~/assests/mail.svg';
 import { authenticator } from '~/services/auth.server';
 import { useEffect, useRef, useState } from 'react';
 import Turnstile, { useTurnstile } from 'react-turnstile';
+import { useTranslation } from 'react-i18next';
 
 interface SocialButtonProps {
   provider: SocialsProvider;
@@ -49,6 +50,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function Login() {
+  const { t } = useTranslation();
   const [type, setType] = useState<'login' | 'register'>('login');
   const [showPassword, setShowPassword] = useState(false);
   const email = useRef<HTMLInputElement | null>(null);
@@ -69,7 +71,7 @@ export default function Login() {
     <div className='h-screen flex justify-center items-center bg-zinc-300 text-black dark:bg-gray-800 dark:text-white'>
       <div className='flex flex-col *:m-4  items-center justify-center relative lg:w-2/3 w-4/5 h-2/3 shadow-xl dark:shadow-gray-800 bg-white rounded-xl dark:bg-gray-900 dark:text-white p-8'>
         <h1 className='text-3xl font-bold'>
-          {type.charAt(0).toUpperCase() + type.slice(1)}
+          {type === 'login' ? t('login.title') : t('login.register')}
         </h1>
         {
           //@ts-ignore
@@ -96,7 +98,7 @@ export default function Login() {
                   <input
                     className='bg-inherit'
                     type='text'
-                    placeholder='email'
+                    placeholder={t('login.email')}
                     name='email'
                     ref={email}
                     required
@@ -104,7 +106,7 @@ export default function Login() {
                   <div className='flex relative bg-inherit *:bg-inherit'>
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      placeholder='password'
+                      placeholder={t('login.password')}
                       name='password'
                       ref={password}
                       required
@@ -116,7 +118,7 @@ export default function Login() {
                       }}
                       className='w-10 absolute right-0 top-50%'
                     >
-                      {showPassword ? 'H' : 'S'}
+                      {showPassword ? t('login.hidePassword') : t('login.showPassword')}
                     </button>
                   </div>
 
@@ -131,7 +133,7 @@ export default function Login() {
                   <button
                     disabled={verifyState}
                     onClick={(e) => {
-                      alert('this Method is not implemented yet');
+                      alert(t('login.notImplemented'));
                       e.preventDefault();
                       return;
                       const useremail = email.current?.value || '';
@@ -144,11 +146,11 @@ export default function Login() {
                       ) {
                         e.preventDefault();
                         //@ts-ignore
-                        fetcher.data.logindata.error = 'Invalid Email';
+                        fetcher.data.logindata.error = t('login.invalidEmail');
                       }
                     }}
                   >
-                    Login
+                    {t('login.loginButton')}
                   </button>
                 </fetcher.Form> */}
               <div className='flex gap-4'>
@@ -183,7 +185,7 @@ export default function Login() {
               >
                 <input
                   type='text'
-                  placeholder='email'
+                  placeholder={t('login.email')}
                   name='email'
                   ref={register_email}
                   required
@@ -192,7 +194,7 @@ export default function Login() {
                   <input
                     className='flex-grow'
                     type={showPassword ? 'text' : 'password'}
-                    placeholder='password'
+                    placeholder={t('login.password')}
                     name='password'
                     ref={register_password}
                     required
@@ -204,19 +206,21 @@ export default function Login() {
                     }}
                     className='w-10'
                   >
-                    {showPassword ? 'H' : 'S'}
+                    {showPassword
+                      ? t('login.hidePassword')
+                      : t('login.showPassword')}
                   </button>
                 </div>
                 <input
                   type='password'
-                  placeholder='confirm Password'
+                  placeholder={t('login.confirmPassword')}
                   ref={register_confirm_password}
                   required
                 />
 
                 <button
                   onClick={(e) => {
-                    alert('this Method is not implemented yet');
+                    alert(t('login.notImplemented'));
                     e.preventDefault();
                     return;
 
@@ -233,15 +237,15 @@ export default function Login() {
                     }
                     if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
                       e.preventDefault();
-                      alert('Invalid Email');
+                      alert(t('login.invalidEmail'));
                     }
                     if (password !== confirm_password) {
                       e.preventDefault();
-                      alert('Password does not match');
+                      alert(t('login.passwordMismatch'));
                     }
                   }}
                 >
-                  Register
+                  {t('login.registerButton')}
                 </button>
               </Form>
             }
@@ -250,7 +254,7 @@ export default function Login() {
                 setType('login');
               }}
             >
-              Back to Login
+              {t('login.backToLogin')}
             </button>
           </div>
         )}

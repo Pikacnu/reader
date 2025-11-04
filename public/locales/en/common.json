@@ -29,5 +29,132 @@
     "lightMode": "Light Mode",
     "darkMode": "Dark Mode",
     "language": "Language"
+  },
+  "search": {
+    "placeholder": "Search books... (try from:, tag:)",
+    "button": "Search",
+    "removeFilter": "Remove filter",
+    "removeAll": "✕All",
+    "removeAllFilters": "Remove all {{type}} filters",
+    "example": "Example",
+    "grouped": "📦 Grouped",
+    "ungrouped": "📄 Ungrouped",
+    "groupTooltip": "Ungroup",
+    "ungroupTooltip": "Group display",
+    "filters": {
+      "from": "Search by author",
+      "tag": "Search by tag",
+      "text": "Search book description",
+      "before": "Before date",
+      "after": "After date",
+      "author": "Author",
+      "title": "Title",
+      "genre": "Genre",
+      "year": "Publication year",
+      "rating": "Rating"
+    },
+    "placeholders": {
+      "author": "Author name",
+      "tag": "Tag name",
+      "text": "Description",
+      "before": "YYYY-MM-DD",
+      "after": "YYYY-MM-DD",
+      "title": "Book title",
+      "genre": "Novel/Essay/Poetry",
+      "year": "2024",
+      "rating": "5"
+    }
+  },
+  "searchExamples": {
+    "title": "Search Component Examples",
+    "example1": {
+      "title": "Default Search (Show Quick Filters)",
+      "description": "Default behavior, shows all quick filter buttons"
+    },
+    "example2": {
+      "title": "Compact Mode (Hide Quick Filters)",
+      "description": "Suitable for embedding in page headers or navigation bars, saves space"
+    },
+    "example3": {
+      "title": "Custom Filters",
+      "description": "Custom filter options, regex will be automatically generated based on provided filters"
+    },
+    "example4": {
+      "title": "Custom Filters + Compact Mode",
+      "description": "Combine custom filters with compact mode for maximum flexibility"
+    },
+    "features": {
+      "title": "✨ New Features",
+      "dynamicRegex": {
+        "title": "🔧 Dynamic Regex",
+        "description": "All filter regular expressions are automatically generated based on provided customFilters or default filterSuggestions. You don't need to manually maintain filter lists in multiple places!"
+      },
+      "toggleQuickFilters": {
+        "title": "👁️ Show/Hide Quick Filters",
+        "description": "Use the showQuickFilters property to control whether to display the quick filter buttons below. Suitable for use in different UI scenarios."
+      },
+      "customFilters": {
+        "title": "🎨 Custom Filters",
+        "description": "Provide your own filter configuration through the customFilters property. The component will automatically handle suggestions, conversion, and search logic."
+      }
+    }
+  },
+  "login": {
+    "title": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "loginButton": "Login",
+    "registerButton": "Register",
+    "backToLogin": "Back to Login",
+    "invalidEmail": "Invalid Email",
+    "passwordMismatch": "Password does not match",
+    "notImplemented": "This method is not implemented yet",
+    "showPassword": "Show",
+    "hidePassword": "Hide"
+  },
+  "landing": {
+    "title": "Laganto",
+    "subtitle": "An online platform designed for reading and writing enthusiasts, offering vertical and horizontal reading modes with highly customizable reading experiences.",
+    "getStarted": "Get Started",
+    "whatIs": "What is Laganto?",
+    "description1": "Laganto is an online platform designed for reading and writing enthusiasts, offering vertical and horizontal reading modes with highly customizable reading experiences.",
+    "description2": "You can edit your works on the platform and share them with others to read.",
+    "description3": "Additionally, you can create booklists to quickly share multiple books and easily manage your reading lists.",
+    "whyChoose": "Why Choose Laganto?",
+    "feature1": "We provide an easy-to-use editor that allows you to create and share your works effortlessly.",
+    "feature2": "The platform is centered around the reader, adapting to various devices and providing a smooth reading experience.",
+    "feature3": "Automatically record reading progress, allowing you to pick up where you left off at any time.",
+    "feature4": "Built-in powerful search functionality to help you quickly find relevant content."
+  },
+  "account": {
+    "name": "Name",
+    "email": "Email",
+    "linkedAccounts": "Linked Accounts",
+    "permissions": "Permissions",
+    "aboutMe": "About me",
+    "edit": "Edit",
+    "save": "Save",
+    "logout": "Logout"
+  },
+  "bookList": {
+    "title": "Book List",
+    "titleLabel": "Title",
+    "create": "Create",
+    "placeholder": "title"
+  },
+  "history": {
+    "title": "Reading History",
+    "noBooksFound": "No Books Found"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "update": "Update"
   }
 }

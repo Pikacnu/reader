@@ -62,7 +62,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 export default function Editor() {
   const { chapters, book_id } = useLoaderData<typeof loader>();
   const { t } = useTranslation();
-  const { isLightMode, toggleLightMode } = useLightMode();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>(
     chapters
@@ -399,15 +398,6 @@ export default function Editor() {
                 </span>
               ) : null}
             </div>
-
-            {/* 主題切換按鈕 */}
-            <button
-              onClick={toggleLightMode}
-              className='p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors text-xl'
-              title={t('editor.toggleTheme')}
-            >
-              {isLightMode ? '🌙' : '☀️'}
-            </button>
 
             <button
               onClick={handleManualSave}

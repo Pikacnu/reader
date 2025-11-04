@@ -17,6 +17,8 @@ import { db } from '~/services/db.server';
 import { chapter, book } from 'db/schema';
 import { eq, and } from 'drizzle-orm';
 import { useLoaderData } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
+import { useLightMode } from '~/context/light_toggle_context';
 
 interface Chapter {
   title: string;
@@ -59,13 +61,15 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
 export default function Editor() {
   const { chapters, book_id } = useLoaderData<typeof loader>();
+  const { t } = useTranslation();
+  const { isLightMode, toggleLightMode } = useLightMode();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>(
     chapters
       ? chapters
       : [
           {
-            title: 'Chapter 1',
+            title: t('editor.chapter', { number: 1 }),
             text: [''],
           },
         ],
@@ -200,7 +204,7 @@ export default function Editor() {
     if (chapterList.length === 0) {
       return setChapterList([
         {
-          title: 'Chapter 1',
+          title: t('editor.chapter', { number: 1 }),
           text: editor.current?.document || [''],
         },
       ]);
@@ -214,23 +218,25 @@ export default function Editor() {
       },
       ...prev.slice(editing + 1, prev.length),
       {
-        title: `Chapter ${chapterList.length + 1}`,
+        title: t('editor.chapter', { number: chapterList.length + 1 }),
         text: [''],
       },
     ]);
     setEditing(chapterList.length);
     setHasUnsavedChanges(true);
     editor.current?.removeBlocks(editor.current?.document);
-  }, [chapterList, editing, blockToText]);
+  }, [chapterList, editing, blockToText, t]);
 
   // 刪除章節
   const deleteChapter = useCallback(
     (index: number) => {
       if (chapterList.length <= 1) {
-        alert('至少需要保留一個章節');
+        alert(t('editor.minChapterWarning'));
         return;
       }
-      if (!confirm(`確定要刪除「${chapterList[index].title}」嗎？`)) {
+      if (
+        !confirm(t('editor.deleteConfirm', { title: chapterList[index].title }))
+      ) {
         return;
       }
       setChapterList((prev) => prev.filter((_, i) => i !== index));
@@ -239,7 +245,7 @@ export default function Editor() {
         setEditing(Math.max(0, chapterList.length - 2));
       }
     },
-    [chapterList, editing],
+    [chapterList, editing, t],
   );
 
   // 更新章節標題
@@ -281,33 +287,35 @@ export default function Editor() {
       });
 
       if (!response.ok) {
-        throw new Error('保存失敗');
+        throw new Error(t('editor.saveFailed'));
       }
 
       const result = await response.json();
-      console.log('保存成功:', result);
+      console.log(t('editor.saveSuccess'), result);
       setLastSaved(new Date());
       setHasUnsavedChanges(false);
       setChapterList(updatedChapters);
-      alert('保存成功！');
+      alert(t('editor.saveSuccess'));
     } catch (error) {
       console.error('保存錯誤:', error);
-      alert('保存失敗，請稍後再試');
+      alert(t('editor.saveFailed'));
     } finally {
       setIsSaving(false);
     }
-  }, [chapterList, editing, book_id, blockToText]);
+  }, [chapterList, editing, book_id, blockToText, t]);
 
   return (
-    <div className='flex h-screen w-full bg-gray-50'>
+    <div className='flex h-screen w-full bg-gray-50 dark:bg-gray-900'>
       {/* 側邊欄 - 章節列表 */}
       <div
         className={`${
           isSidebarOpen ? 'w-64' : 'w-0'
-        } transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden`}
+        } transition-all duration-300 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden`}
       >
-        <div className='p-4 border-b border-gray-200'>
-          <h2 className='text-lg font-semibold text-gray-800'>章節列表</h2>
+        <div className='p-4 border-b border-gray-200 dark:border-gray-700'>
+          <h2 className='text-lg font-semibold text-gray-800 dark:text-gray-100'>
+            {t('editor.chapterList')}
+          </h2>
         </div>
 
         <div className='flex-1 overflow-y-auto p-2'>
@@ -316,8 +324,8 @@ export default function Editor() {
               key={index}
               className={`group mb-2 rounded-lg transition-all ${
                 index === editing
-                  ? 'bg-blue-50 border-2 border-blue-500'
-                  : 'bg-gray-50 border-2 border-transparent hover:border-gray-300'
+                  ? 'bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-500 dark:border-blue-400'
+                  : 'bg-gray-50 dark:bg-gray-700/50 border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               <div className='p-3 flex items-center justify-between'>
@@ -326,12 +334,12 @@ export default function Editor() {
                   value={item.title}
                   onChange={(e) => updateChapterTitle(index, e.target.value)}
                   onClick={() => switchChapter(index)}
-                  className='flex-1 bg-transparent outline-none text-sm font-medium text-gray-700 cursor-pointer'
+                  className='flex-1 bg-transparent outline-none text-sm font-medium text-gray-700 dark:text-gray-200 cursor-pointer'
                 />
                 <button
                   onClick={() => deleteChapter(index)}
-                  className='opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700 ml-2 text-lg'
-                  title='刪除章節'
+                  className='opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 ml-2 text-lg'
+                  title={t('editor.deleteChapter')}
                 >
                   ✕
                 </button>
@@ -340,63 +348,79 @@ export default function Editor() {
           ))}
         </div>
 
-        <div className='p-2 border-t border-gray-200'>
+        <div className='p-2 border-t border-gray-200 dark:border-gray-700'>
           <button
             onClick={addChapter}
-            className='w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors'
+            className='w-full py-2 px-4 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors'
           >
-            ＋ 新增章節
+            ＋ {t('editor.addChapter')}
           </button>
         </div>
       </div>
 
       {/* 主編輯區域 */}
+      {/* 主編輯區域 */}
       <div className='flex-1 flex flex-col'>
         {/* 頂部工具列 */}
-        <div className='h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4'>
+        <div className='h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4'>
           <div className='flex items-center space-x-4'>
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className='p-2 hover:bg-gray-100 rounded-lg transition-colors'
-              title={isSidebarOpen ? '隱藏側邊欄' : '顯示側邊欄'}
+              className='p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors'
+              title={
+                isSidebarOpen
+                  ? t('editor.hideSidebar')
+                  : t('editor.showSidebar')
+              }
             >
               {isSidebarOpen ? '◀' : '▶'}
             </button>
 
-            <div className='text-sm text-gray-600'>
+            <div className='text-sm text-gray-600 dark:text-gray-300'>
               <span className='font-medium'>{chapterList[editing]?.title}</span>
             </div>
           </div>
 
           <div className='flex items-center space-x-4'>
             {/* 保存狀態 */}
-            <div className='text-xs text-gray-500'>
+            <div className='text-xs text-gray-500 dark:text-gray-400'>
               {isSaving ? (
                 <span className='flex items-center'>
                   <span className='animate-spin mr-2'>⏳</span>
-                  保存中...
+                  {t('editor.saving')}
                 </span>
               ) : hasUnsavedChanges ? (
-                <span className='text-orange-500'>有未保存的變更</span>
+                <span className='text-orange-500 dark:text-orange-400'>
+                  {t('editor.unsavedChanges')}
+                </span>
               ) : lastSaved ? (
-                <span className='text-green-600'>
-                  已保存 {lastSaved.toLocaleTimeString()}
+                <span className='text-green-600 dark:text-green-400'>
+                  {t('editor.saved', { time: lastSaved.toLocaleTimeString() })}
                 </span>
               ) : null}
             </div>
 
+            {/* 主題切換按鈕 */}
+            <button
+              onClick={toggleLightMode}
+              className='p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors text-xl'
+              title={t('editor.toggleTheme')}
+            >
+              {isLightMode ? '🌙' : '☀️'}
+            </button>
+
             <button
               onClick={handleManualSave}
               disabled={isSaving}
-              className='px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors'
+              className='px-4 py-2 bg-green-500 dark:bg-green-600 text-white rounded-lg hover:bg-green-600 dark:hover:bg-green-700 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors'
             >
-              {isSaving ? '保存中...' : '保存'}
+              {isSaving ? t('editor.saving') : t('editor.save')}
             </button>
           </div>
         </div>
 
         {/* 編輯器 */}
-        <div className='flex-1 overflow-auto bg-white'>
+        <div className='flex-1 overflow-auto bg-white dark:bg-gray-900'>
           <div className='max-w-4xl mx-auto py-8 px-6'>
             <Suspense>
               <View

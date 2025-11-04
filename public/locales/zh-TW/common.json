@@ -156,5 +156,24 @@
     "confirm": "確認",
     "delete": "刪除",
     "update": "更新"
+  },
+  "editor": {
+    "chapterList": "章節列表",
+    "addChapter": "新增章節",
+    "deleteChapter": "刪除章節",
+    "untitledChapter": "未命名章節",
+    "chapter": "第 {{number}} 章",
+    "deleteConfirm": "確定要刪除「{{title}}」嗎？",
+    "minChapterWarning": "至少需要保留一個章節",
+    "saving": "保存中...",
+    "saved": "已保存 {{time}}",
+    "unsavedChanges": "有未保存的變更",
+    "save": "保存",
+    "saveSuccess": "保存成功！",
+    "saveFailed": "保存失敗，請稍後再試",
+    "hideSidebar": "隱藏側邊欄",
+    "showSidebar": "顯示側邊欄",
+    "loadingEditor": "載入編輯器中...",
+    "toggleTheme": "切換主題"
   }
 }

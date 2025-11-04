@@ -11,7 +11,7 @@ import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpBackend from 'i18next-http-backend';
-import i18nextOptions from './i18n';
+import i18nextOptions from './utils/i18n';
 
 // Initialize i18next with http backend for client-side loading
 async function hydrate() {

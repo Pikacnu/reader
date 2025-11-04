@@ -6,33 +6,34 @@ import { useContext, useEffect } from 'react';
 import { text } from './index';
 import { BlockNoteEditor } from '@blocknote/core';
 import { Block } from '@blocknote/core';
+import { useLightMode } from '~/context/light_toggle_context';
 
 export default function View({
-	getEditor,
-	defaultdata,
+  getEditor,
+  defaultdata,
 }: {
-	getEditor: (data: BlockNoteEditor) => void;
-	defaultdata?: Block[];
+  getEditor: (data: BlockNoteEditor) => void;
+  defaultdata?: Block[];
 }) {
-	const editor = useCreateBlockNote(
-		{
-			defaultStyles: true,
-			initialContent: defaultdata,
-		},
-	);
-	useEffect(() => {
-		getEditor(editor);
-	}, []);
-	return (
-		<div>
-			<BlockNoteView
-				editor={editor}
-				sideMenu={false}
-				slashMenu={false}
-				linkToolbar={false}
-				tableHandles={false}
-				formattingToolbar={false}
-			></BlockNoteView>
-		</div>
-	);
+  const { isLightMode } = useLightMode();
+  const editor = useCreateBlockNote({
+    defaultStyles: true,
+    initialContent: defaultdata,
+  });
+  useEffect(() => {
+    getEditor(editor);
+  }, []);
+  return (
+    <div>
+      <BlockNoteView
+        editor={editor}
+        theme={isLightMode ? 'light' : 'dark'}
+        sideMenu={false}
+        slashMenu={false}
+        linkToolbar={false}
+        tableHandles={false}
+        formattingToolbar={false}
+      ></BlockNoteView>
+    </div>
+  );
 }

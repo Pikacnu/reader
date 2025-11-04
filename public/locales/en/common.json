@@ -156,5 +156,24 @@
     "confirm": "Confirm",
     "delete": "Delete",
     "update": "Update"
+  },
+  "editor": {
+    "chapterList": "Chapter List",
+    "addChapter": "Add Chapter",
+    "deleteChapter": "Delete Chapter",
+    "untitledChapter": "Untitled Chapter",
+    "chapter": "Chapter {{number}}",
+    "deleteConfirm": "Are you sure you want to delete \"{{title}}\"?",
+    "minChapterWarning": "At least one chapter must be kept",
+    "saving": "Saving...",
+    "saved": "Saved at {{time}}",
+    "unsavedChanges": "Unsaved changes",
+    "save": "Save",
+    "saveSuccess": "Saved successfully!",
+    "saveFailed": "Save failed, please try again later",
+    "hideSidebar": "Hide sidebar",
+    "showSidebar": "Show sidebar",
+    "loadingEditor": "Loading editor...",
+    "toggleTheme": "Toggle theme"
   }
 }

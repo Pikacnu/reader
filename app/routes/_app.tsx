@@ -17,7 +17,7 @@ import search from '~/assests/search.svg';
 import { LightToggleProvider } from '~/context/light_toggle_context';
 import SettingsPanel from '~/compoents/settings';
 import { useTranslation } from 'react-i18next';
-import { i18n } from '~/i18n.server';
+import { i18n } from '~/utils/i18n.server';
 import Search from '~/compoents/search';
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {

@@ -12,7 +12,7 @@ import {
 import { LinksFunction, LoaderFunctionArgs, json } from '@remix-run/node';
 import styles from './tailwind.css?url';
 import { useChangeLanguage } from 'remix-i18next/react';
-import { i18n } from './i18n.server';
+import { i18n } from './utils/i18n.server';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 

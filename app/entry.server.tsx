@@ -15,8 +15,8 @@ import { createInstance } from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { resolve } from 'node:path';
 import { readFileSync } from 'node:fs';
-import { i18n } from './i18n.server';
-import i18nextOptions from './i18n';
+import { i18n } from './utils/i18n.server';
+import i18nextOptions from './utils/i18n';
 
 const ABORT_DELAY = 5_000;
 

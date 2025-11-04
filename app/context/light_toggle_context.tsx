@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useLocalStorage } from '~/hooks/uselocalstorage';
 
 export const LightToggleContext = createContext<{
   isLightMode: boolean;
@@ -21,7 +22,7 @@ export const LightToggleProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [isLightMode, setIsLightMode] = useState(false);
+  const [isLightMode, setIsLightMode] = useLocalStorage('lightMode', true);
 
   useEffect(() => {
     // Check for saved preference or default to false

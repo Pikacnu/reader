@@ -3,7 +3,7 @@ import { authenticator } from '~/services/auth.server';
 import { useLoaderData } from '@remix-run/react';
 import { db } from '~/services/db.server';
 import { book, chapter } from 'db/schema';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, placeholder } from 'drizzle-orm';
 import { useRef, useState } from 'react';
 import BookInfo from '../compoents/bookinfo';
 import { User } from '~/types/user.server';
@@ -86,6 +86,7 @@ export default function EditBook() {
                 name: 'tags',
                 default: tags,
                 setvalue: setTags,
+                placeholder: 'tag1,tag2,tag3',
               },
               {
                 name: 'description',
@@ -104,6 +105,7 @@ export default function EditBook() {
                       ? coverClass.current
                       : 'outline-teal-300'
                   }`}
+                  placeholder={data.placeholder && data.placeholder}
                   type='text'
                   value={data.default || ''}
                   onChange={(e) => {

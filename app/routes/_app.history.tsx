@@ -74,7 +74,7 @@ export default function BookHistory() {
   if (!books) {
     return (
       <div className='w-full h-full flex items-center justify-center'>
-        <div className='shadow-lg shadow-slate-300 p-4 rounded-md flex flex-row'>
+        <div className='shadow-lg shadow-slate-300 dark:shadow-gray-800 p-4 rounded-md flex flex-row'>
           <img
             className='object-scale-down h-32 w-32'
             src={sad}

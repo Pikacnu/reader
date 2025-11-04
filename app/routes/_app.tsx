@@ -18,6 +18,7 @@ import { LightToggleProvider } from '~/context/light_toggle_context';
 import SettingsPanel from '~/compoents/settings';
 import { useTranslation } from 'react-i18next';
 import { i18n } from '~/i18n.server';
+import Search from '~/compoents/search';
 
 export let loader = async ({ request }: LoaderFunctionArgs) => {
   const logindata = (await authenticator.isAuthenticated(
@@ -103,10 +104,9 @@ export default function Layout() {
           </div>
         ) : null}
         <div className='flex w-full h-12 lg:h-14 bg-gray-600 dark:bg-gray-800 align-middle justify-between'>
-          <div className='h-12 w-12 lg:h-14 lg:w-16 relative'>
+          <div className='h-12 w-12 lg:h-14 lg:w-16 relative hover:cursor-pointer '>
             <Link to={'/account'}>
               <img
-                // @ts-ignore
                 src={logindata?.photoURL || account}
                 alt='User Profile'
                 className='object-cover lg:h-14 lg:w-16'
@@ -115,7 +115,9 @@ export default function Layout() {
             <div className='w-16'></div>
           </div>
           <div className='flex-1 flex items-center justify-center'>
-            <form
+            {/* Search Bar */}
+            {/*
+							<form
               className='flex items-center bg-blue-200 dark:bg-gray-700 rounded-lg w-full max-w-2xl mx-4'
               onSubmit={(e) => {
                 e.preventDefault();
@@ -128,13 +130,13 @@ export default function Layout() {
                 } = Object.assign(
                   {},
                   ...temp.map((e) => {
-                    if (e.startsWith('tag=')) {
+                    if (e.startsWith('tag:')) {
                       return {
-                        tag: e.replace('tag=', ''),
+                        tag: e.replace('tag:', ''),
                       };
-                    } else if (e.startsWith('author=')) {
+                    } else if (e.startsWith('author:')) {
                       return {
-                        author: e.replace('author=', ''),
+                        author: e.replace('author:', ''),
                       };
                     }
                     return {
@@ -150,6 +152,7 @@ export default function Layout() {
               }}
             >
               <input
+                list='search-options'
                 type='text'
                 placeholder={t('nav.search')}
                 className='w-full px-4 py-2 bg-transparent text-gray-900 dark:text-white focus:outline-none'
@@ -158,6 +161,16 @@ export default function Layout() {
                   setSearchString(e.target.value);
                 }}
               />
+              <datalist
+                id='search-options'
+                onChange={(e) => {
+                  console.log(e);
+                }}
+              >
+                <option value='tag:'>Tag Search</option>
+                <option value='author:'>Author Search</option>
+                <option value='text:'>Text Search</option>
+              </datalist>
               <button className='px-2'>
                 <img
                   className='object-cover h-8 w-8 lg:h-10 lg:w-10'
@@ -165,7 +178,8 @@ export default function Layout() {
                   alt='Search'
                 />
               </button>
-            </form>
+            </form> */}
+            <Search showQuickFilters={false} />
           </div>
           <div className='flex items-center px-4'>
             <SettingsPanel />

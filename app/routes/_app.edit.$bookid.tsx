@@ -57,25 +57,17 @@ export default function EditBook() {
   const [description, setDescription] = useState(bookdata?.description);
   return (
     <div>
-      <div
-        className='bg-green-200 absolute'
-        hidden
-      >
-        <p className='bg-red-200'></p>
-        <p className='bg-red-700'></p>
-      </div>
-
       {bookdata ? (
         <div className='flex flex-row w-full'>
           <div className='flex flex-col w-1/3 item-center'>
             {[
               {
-                nane: 'title',
+                name: 'title',
                 default: title,
                 setvalue: setTitle,
               },
               {
-                nane: 'cover',
+                name: 'cover',
                 default: cover,
                 setvalue: (cover: string) => {
                   setCover(cover);
@@ -91,12 +83,12 @@ export default function EditBook() {
                 },
               },
               {
-                nane: 'tags',
+                name: 'tags',
                 default: tags,
                 setvalue: setTags,
               },
               {
-                nane: 'description',
+                name: 'description',
                 default: description,
                 setvalue: setDescription,
               },
@@ -105,10 +97,10 @@ export default function EditBook() {
                 className='flex flex-col *:w-full *:outline-1  *:m-2'
                 key={index}
               >
-                <label>{data.nane}</label>
+                <label>{data.name}</label>
                 <input
-                  className={`bg-gray-200 p-2 rounded-lg ${
-                    data.nane === 'cover'
+                  className={`bg-gray-200 dark:bg-gray-700 p-2 rounded-lg ${
+                    data.name === 'cover'
                       ? coverClass.current
                       : 'outline-teal-300'
                   }`}
@@ -124,13 +116,19 @@ export default function EditBook() {
             <div className='*:m-2'>
               <div className='grid md:grid-cols-2'>
                 <button
-                  className={`bg-${published ? 'green' : 'red'}-200`}
+                  className={`bg-${published ? 'green' : 'red'}-200 dark:bg-${
+                    published ? 'green' : 'red'
+                  }-700 text-black`}
                   onClick={() => setPublished((prev) => !prev)}
                 >
                   {published ? 'Published' : 'Unpublished'}
                 </button>
                 <button
-                  className={`bg-${allowComment ? 'green' : 'red'}-200`}
+                  className={`bg-${
+                    allowComment ? 'green' : 'red'
+                  }-200 dark:bg-${
+                    allowComment ? 'green' : 'red'
+                  }-700 text-black`}
                   onClick={() => setAllowComment((prev) => !prev)}
                 >
                   {allowComment ? 'Allow Comment' : 'Disallow Comment'}

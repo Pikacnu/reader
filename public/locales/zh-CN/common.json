@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "主页",
+    "about": "关于",
+    "terms": "使用者条款",
+    "contact": "联络我们",
+    "history": "历史",
+    "bookshelf": "书架",
+    "edit": "编辑",
+    "account": "帐号",
+    "login": "登入",
+    "search": "搜寻"
+  },
+  "home": {
+    "recentlyRead": "最近阅读",
+    "recentlyAdded": "最近新增",
+    "recentlyUpdated": "最近更新",
+    "recommended": "推荐",
+    "popular": "热门",
+    "all": "全部",
+    "noContent": "没有内容可以显示"
+  },
+  "booklist": {
+    "selectBooklist": "选择要加入的书单",
+    "add": "新增",
+    "close": "关闭"
+  },
+  "settings": {
+    "lightMode": "浅色模式",
+    "darkMode": "深色模式",
+    "language": "语言"
+  }
+}

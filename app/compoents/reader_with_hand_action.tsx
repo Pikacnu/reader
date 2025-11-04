@@ -1,43 +1,57 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { Chapter } from '~/types/book.server';
-import { useCallback, useMemo, useState, useEffect } from 'react';
-import { textConverterTable } from '~/utils/text_converter';
+import { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 
 interface ReaderProps {
   chapter: Chapter;
 }
-type TextDirection = 'ltr' | 'rtl';
+
+enum TextDirection {
+  ltr = 'ltr',
+  rtl = 'rtl',
+}
+
 enum DeviceType {
   mobile = 'mobile',
   tablet = 'tablet',
   desktop = 'desktop',
   undefind = 'undefined',
 }
+
 enum Input {
   Control = 'Control',
   Prev = 'ArrowRight',
   Next = 'ArrowLeft',
 }
+
 export default function Reader({ chapter }: ReaderProps) {
   const [controlPanelOpen, setControlPanelOpen] = useState(false);
-  const [device, setDevice] = useState(DeviceType.undefind);
+  const device = useRef(DeviceType.undefind);
+  function setDevice(type: DeviceType) {
+    device.current = type;
+  }
+
   const pages = useMemo(() => chapter.pages, [chapter]);
+
+  // Page State
   const [pageCount, setPageCount] = useState(pages.length);
   const [currentPage, setCurrentPage] = useState(0);
-  const [textDirection, setTextDirection] = useState<TextDirection>('ltr');
+
+  // Display Settings
+  const [textDirection, setTextDirection] = useState<TextDirection>(
+    TextDirection.ltr,
+  );
   const [bgcolor, setBgColor] = useState('#FFFFFF');
-  const complementaryColor = useCallback((color: string) => {
-    const hex = color.replace('#', '');
+
+  const textcolor = useMemo(() => {
+    const hex = bgcolor.replace('#', '');
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 2 + 2), 16);
     const b = parseInt(hex.substring(4, 4 + 2), 16);
     const yiq = (r * 299 + g * 587 + b * 114) / 1000;
     return yiq >= 128 ? '#000000' : '#FFFFFF';
-  }, []);
-  const textcolor = useMemo(
-    () => complementaryColor(bgcolor),
-    [complementaryColor, bgcolor],
-  );
+  }, [bgcolor]);
+  // Font Settings
   const fontMaxSize = 24;
   const fontMinSize = 12;
   const [fontsize, setFontsize] = useState(16);
@@ -50,8 +64,10 @@ export default function Reader({ chapter }: ReaderProps) {
         : size,
     );
   }, []);
+  // Search Settings
   const [searching, setSearching] = useState(false);
   const [searchingText, setSearchingText] = useState('');
+  // Text Leading Settings
   const [textLeading, setTextLeading] = useState(2);
   const textLeadingMax = 4.5;
   const textLeadingMin = 1.0;
@@ -66,12 +82,16 @@ export default function Reader({ chapter }: ReaderProps) {
   }, []);
   const textLead = useMemo(() => `${textLeading / 2}em`, [textLeading]);
   const textcoverter = useCallback((text: string, direction: TextDirection) => {
+    const textConverterTable = new Map<string, string>();
     if (direction === 'rtl') return text;
     return text.split('').reduce((acc, cur) => {
       const converted = textConverterTable.get(cur);
       return acc + (converted ? converted : cur);
     });
   }, []);
+
+  // Device Detection
+
   useEffect(() => {
     setDevice(
       window.innerWidth < 640
@@ -81,6 +101,11 @@ export default function Reader({ chapter }: ReaderProps) {
         : DeviceType.desktop,
     );
   }, []);
+
+  // Keyboard and Touch Input Handling
+
+  const cursorTrace = useRef<Array<{ x: number; y: number }>>([]);
+
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === Input.Prev) {
@@ -93,10 +118,51 @@ export default function Reader({ chapter }: ReaderProps) {
       }
       if (e.key === Input.Control) return setControlPanelOpen((prev) => !prev);
     };
-    const handleClick = (event: MouseEvent) => {
-      handleKeydown({
-        key: (event.currentTarget as HTMLElement)?.id || undefined,
-      } as KeyboardEvent);
+
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      cursorTrace.current = [{ x: touch.clientX, y: touch.clientY }];
+    };
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      cursorTrace.current.push({ x: touch.clientX, y: touch.clientY });
+    };
+    const handleTouchEnd = () => {
+      const trace = cursorTrace.current;
+      if (trace.length < 2) return;
+      const lastPoint = trace[trace.length - 1];
+      const firstPoint = trace[0];
+      const deltaX = lastPoint.x - firstPoint.x;
+      const deltaY = lastPoint.y - firstPoint.y;
+      const absDeltaX = Math.abs(deltaX);
+      const absDeltaY = Math.abs(deltaY);
+      const threshold = window.innerWidth * 0.2;
+      if (textDirection === TextDirection.ltr) {
+        if (absDeltaX > absDeltaY && absDeltaX > threshold) {
+          if (deltaX > 0) {
+            // Swipe Right
+            if (currentPage === pageCount - 1) return;
+            setCurrentPage((prev) => prev + 1);
+          } else {
+            // Swipe Left
+            if (currentPage === 0) return;
+            setCurrentPage((prev) => prev - 1);
+          }
+        }
+      } else {
+        if (absDeltaY > absDeltaX && absDeltaY > threshold) {
+          if (deltaY > 0) {
+            // Swipe Down
+            if (currentPage === 0) return;
+            setCurrentPage((prev) => prev - 1);
+          } else {
+            // Swipe Up
+            if (currentPage === pageCount - 1) return;
+            setCurrentPage((prev) => prev + 1);
+          }
+        }
+      }
+      cursorTrace.current = [];
     };
 
     const handleScroll = (e: WheelEvent) => {
@@ -110,18 +176,18 @@ export default function Reader({ chapter }: ReaderProps) {
     };
 
     document.addEventListener('keydown', handleKeydown);
+
     document.addEventListener('wheel', handleScroll);
-    const elements = document.getElementsByClassName('Touch');
-    for (const element of elements) {
-      (element as HTMLElement).addEventListener('click', handleClick);
-    }
+
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchend', handleTouchEnd);
     return () => {
       document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
       document.removeEventListener('wheel', handleScroll);
-      const elements = document.getElementsByClassName('Touch');
-      for (const element of elements) {
-        (element as HTMLElement).removeEventListener('click', handleClick);
-      }
     };
   }, [currentPage, pageCount, controlPanelOpen]);
   const [clientWidth, setClientWidth] = useState(0);
@@ -140,7 +206,8 @@ export default function Reader({ chapter }: ReaderProps) {
     const clientWidth = document.body.clientWidth;
     const clientHeight = document.body.clientHeight - 32;
     const reader = document.getElementById('reader');
-    const readerWidth = reader?.getBoundingClientRect().width || 10000000;
+    const readerWidth =
+      reader?.getBoundingClientRect().width || document.body.clientWidth;
     const readerHeight =
       reader?.scrollHeight ||
       reader?.getBoundingClientRect().height ||
@@ -178,32 +245,24 @@ export default function Reader({ chapter }: ReaderProps) {
     };
   }, [changeSize]);
 
+  const lastChangeTimeStamp = useRef(0);
+
+  const changeBgColor = useCallback(() => {
+    return (color: string) => {
+      const now = Date.now();
+      if (now - lastChangeTimeStamp.current < 100) return;
+      console.log('Change BG Color to', color);
+      lastChangeTimeStamp.current = now;
+      setBgColor(color);
+    };
+  }, [])();
+
   return (
     <div
       className='flex flex-col w-full h-[100vh]'
       style={{ backgroundColor: bgcolor, color: textcolor, fontSize: fontsize }}
     >
       <div className='flex-shrink flex-grow flex relative w-full overflow-hidden'>
-        {device !== DeviceType.desktop ? (
-          <>
-            <div className='w-full h-full *:w-1/3 *:h-full absolute flex flex-row z-10'>
-              <div
-                id={Input.Next}
-                className='Touch'
-              ></div>
-              <div
-                id={Input.Control}
-                className='Touch'
-              ></div>
-              <div
-                id={Input.Prev}
-                className='Touch'
-              ></div>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
         <div
           id='reader'
           className='flex flex-col h-full justify-start w-max overflow-visible'
@@ -268,11 +327,15 @@ export default function Reader({ chapter }: ReaderProps) {
       <div
         className={`flex flex-row w-full justify-center *:ml-2 *:mr-2 p-2 text-lg bg-slate-400 flex-wrap ${
           controlPanelOpen ? '' : 'hidden'
-        } absolute bottom-0 left-0 right-0 z-200`}
+        } absolute bottom-0 left-0 right-0`}
       >
         <button
           onClick={() =>
-            setTextDirection(textDirection === 'ltr' ? 'rtl' : 'ltr')
+            setTextDirection(
+              textDirection === TextDirection.ltr
+                ? TextDirection.rtl
+                : TextDirection.ltr,
+            )
           }
         >
           {textDirection}
@@ -281,7 +344,9 @@ export default function Reader({ chapter }: ReaderProps) {
           type='color'
           value={bgcolor}
           className='all-unset w-8 h-8'
-          onChange={(e) => setBgColor(e.target.value)}
+          onChange={(e) => {
+            changeBgColor(e.target.value);
+          }}
         />
         <input
           type='range'

@@ -1,10 +1,15 @@
-import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import {
+	ActionFunctionArgs,
+	LoaderFunctionArgs,
+	redirect,
+} from '@remix-run/node';
 import { db } from '~/services/db.server';
 import { account, register } from 'db/schema';
 import { Form, useLoaderData } from '@remix-run/react';
 import { sendmail } from '~/services/mail.server';
 import { eq } from 'drizzle-orm';
 import crypto from 'crypto';
+import { useEffect } from 'react';
 
 function makeid(length: number) {
 	let result = '';
@@ -20,6 +25,7 @@ function makeid(length: number) {
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+	
 	const formdata = await request.formData();
 	const email = formdata.get('email') as string;
 	const password = formdata.get('password') as string;
@@ -84,7 +90,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function Register() {
 	const { verifyState } = useLoaderData<typeof loader>();
-	if(verifyState) window.location.href = '/login';
+	if (verifyState) window.location.href = '/login';
+	useEffect(() => {
+		if (verifyState) window.location.href = '/login';
+	}, []);
 	return (
 		<div className='flex items-center justify-center w-full h-svh '>
 			<div className=' shadow-2xl p-4 rounded-lg bg-white'>

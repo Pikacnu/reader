@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, json } from '@remix-run/node';
+import { LoaderFunctionArgs, json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import BookInfo from '~/compoents/bookinfo';
 import { db } from '~/services/db.server';
@@ -8,7 +8,6 @@ import sad from '~/assests/sad.svg';
 import { booklistcontext, booklistBookidContext } from '~/services/contexts';
 import { useContext, useEffect } from 'react';
 import bookmark_add from '~/assests/bookmark_add.svg';
-import jsdom from 'jsdom';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
 	const bookid = params.bookid;
@@ -20,6 +19,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 			}),
 			data.account.id,
 			data.account.link_avatar,
+			data.book.cz_link!,
 		];
 	})(
 		(
@@ -30,6 +30,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 				.where(eq(book.id, parseInt(bookid || '0')))
 		)[0],
 	) as any;
+	if(!bookdata) return redirect('/404');
 	const chapters = await db
 		.select({
 			title: chapter.title,
@@ -40,7 +41,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 		.where(eq(chapter.book_id, parseInt(bookid || '0')))
 		.orderBy(chapter.chapter_id);
 
-	if (chapters.length === 0 && bookdata.cz_link === '') {
+	if (chapters.length === 0 && bookdata[3] !== '') {
 		return {
 			bookid,
 			bookdata: bookdata[0],
@@ -49,9 +50,11 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 		};
 	}
 
-	if (chapters.length === 0 && bookdata.cz_link !== '') {
+	if (chapters.length === 0 && bookdata[3] !== '') {
 		await fetch(
-			`https://localhost:${process.env.FETCHER_SERVER_PORT}/add/${bookdata.cz_link}/${bookid}`,
+			`https://${process.env.HOST_LINK!}:${
+				process.env.FETCHER_SERVER_PORT
+			}/add/${bookdata[3]}/${bookid!}`,
 		);
 	}
 

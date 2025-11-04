@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "主頁",
+    "about": "關於",
+    "terms": "使用者條款",
+    "contact": "聯絡我們",
+    "history": "歷史",
+    "bookshelf": "書架",
+    "edit": "編輯",
+    "account": "帳號",
+    "login": "登入",
+    "search": "搜尋"
+  },
+  "home": {
+    "recentlyRead": "最近閱讀",
+    "recentlyAdded": "最近新增",
+    "recentlyUpdated": "最近更新",
+    "recommended": "推薦",
+    "popular": "熱門",
+    "all": "全部",
+    "noContent": "沒有內容可以顯示"
+  },
+  "booklist": {
+    "selectBooklist": "選擇要加入的書單",
+    "add": "新增",
+    "close": "關閉"
+  },
+  "settings": {
+    "lightMode": "淺色模式",
+    "darkMode": "深色模式",
+    "language": "語言"
+  }
+}

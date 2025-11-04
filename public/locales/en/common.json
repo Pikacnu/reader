@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "terms": "Terms of Service",
+    "contact": "Contact Us",
+    "history": "History",
+    "bookshelf": "Bookshelf",
+    "edit": "Edit",
+    "account": "Account",
+    "login": "Login",
+    "search": "Search"
+  },
+  "home": {
+    "recentlyRead": "Recently Read",
+    "recentlyAdded": "Recently Added",
+    "recentlyUpdated": "Recently Updated",
+    "recommended": "Recommended",
+    "popular": "Popular",
+    "all": "All",
+    "noContent": "No content to display"
+  },
+  "booklist": {
+    "selectBooklist": "Select a booklist",
+    "add": "Add",
+    "close": "Close"
+  },
+  "settings": {
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "language": "Language"
+  }
+}

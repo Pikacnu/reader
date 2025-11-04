@@ -3,15 +3,20 @@
 @tailwind utilities;
 
 @layer base {
-	.all-unset {
-		all: unset;
-	}
+  .all-unset {
+    all: unset;
+  }
 }
 .text-rtl {
-	writing-mode: rl;
-	text-orientation: mixed;
+  writing-mode: rl;
+  text-orientation: mixed;
 }
 .text-ltr {
-	writing-mode: vertical-lr;
-	text-orientation:mixed;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.self-lr {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
 }

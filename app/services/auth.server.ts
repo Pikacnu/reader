@@ -8,7 +8,7 @@ import {
 	DiscordProfile,
 	GitHubProfile,
 	GoogleProfile,
-} from 'remix-auth-socials';
+} from '@sqware/remix-auth-socials';
 import { Permission, Platform, Profile, User } from '~/types/user.server';
 import { account } from 'db/schema';
 import { eq } from 'drizzle-orm';
@@ -153,7 +153,7 @@ authenticator.use(
 		},
 	),
 );
-
+/*
 authenticator.use(
 	new FormStrategy(async ({ form, context }) => {
 		const email = form.get('email') as string;
@@ -212,3 +212,4 @@ authenticator.use(
 	}),
 	'email',
 );
+*/
